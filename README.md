@@ -1,2 +1,3 @@
 # Pei_Java_Utils
-Utilities
+Utilities.
+Requires Java 8+
