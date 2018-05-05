@@ -1,4 +1,4 @@
-package com.github.peiatgithub.java.utils;
+package com.github.peiatgithub.java.utils.function;
 
 /**
  * 

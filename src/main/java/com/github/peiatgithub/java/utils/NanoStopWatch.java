@@ -17,6 +17,10 @@ public class NanoStopWatch {
     
     private static long begin;
     
+    private NanoStopWatch() {
+    	throw new RuntimeException();
+    }
+    
     /**
      * start running the stop watch
      */
@@ -26,22 +30,22 @@ public class NanoStopWatch {
     }
      
     /**
-     * Stop running the stop watch and get the elapsed time since start running in milli secondes.
+     * Stop the watch and get the elapsed time since start in milli seconds.
      * If the watch was not started, return 0;
      * @return
      */
-    public static long stopAndGetElapsedMillis() {
+    public static long stopAndGetMillis() {
     	
     	return stopAndGetElapsed(TimeUnit.MILLISECONDS);
     	
     }
     
     /**
-     * Stop running the stop watch and get the elapsed time since start running in nano secondes.
+     * Stop the watch and get the elapsed time since start in nano seconds.
      * If the watch was not started, return 0;
      * @return
      */
-    public static long stopAndGetElapsedNanos() {
+    public static long stopAndGetNanos() {
     	
     	return stopAndGetElapsed(TimeUnit.NANOSECONDS);
     	
