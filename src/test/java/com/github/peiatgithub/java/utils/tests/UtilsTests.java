@@ -91,18 +91,24 @@ public class UtilsTests {
 	public void testNanoStopWatch() throws Exception {
 		
 		assertThat(NanoStopWatch.stopAndGetMillis(), is(0L));
+		assertThat(NanoStopWatch.getMillis(), is(0L));
 
 		//
 		NanoStopWatch.begin();
 		threadSleep(1);
-		assertThat(NanoStopWatch.stopAndGetMillis(), greaterThanOrEqualTo(1L));
+		assertThat(NanoStopWatch.getMillis(), greaterThanOrEqualTo(1L));
+		threadSleep(1);
+		assertThat(NanoStopWatch.stopAndGetMillis(), greaterThanOrEqualTo(2L));
 
 		NanoStopWatch.begin();
 		threadSleep(1);
-		assertThat(NanoStopWatch.stopAndGetNanos(), greaterThanOrEqualTo(1000000L));
+		assertThat(NanoStopWatch.getNanos(), greaterThanOrEqualTo(1000000L));
+		threadSleep(1);
+		assertThat(NanoStopWatch.stopAndGetNanos(), greaterThanOrEqualTo(2000000L));
 
 		//
 		threadSleep(1);
+		assertThat(NanoStopWatch.getNanos(), is(0L));
 		assertThat(NanoStopWatch.stopAndGetNanos(), is(0L));
 		
 	}

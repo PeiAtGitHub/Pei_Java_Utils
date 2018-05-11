@@ -19,7 +19,7 @@ public class Utils {
     /**
      *  println the message with the thread name prefixed.
      */
-    public static void printWithThreadName(String message) {
+    public static void printlnWithThreadName(String message) {
         System.out.format("%s: %s%n", Thread.currentThread().getName(), message);
     }
     
@@ -207,7 +207,12 @@ public class Utils {
      * @param fnc
      */
     public static void ifNotNull(Object obj, NonArgFunction fnc) {
-    	if(obj != null) {
+    	ifTrue((obj != null), fnc);
+    }
+
+    
+    public static void ifTrue(boolean flag, NonArgFunction fnc) {
+    	if(flag) {
     		fnc.doSth();	
     	}
     }

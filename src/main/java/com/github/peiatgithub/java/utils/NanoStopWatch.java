@@ -28,7 +28,34 @@ public class NanoStopWatch {
         begin = System.nanoTime();
         running = true;
     }
-     
+
+    public static void stop() {
+    	running = false;
+    }
+
+    
+    /**
+     * Get the elapsed time since start in milli seconds.
+     * If the watch was not started, return 0;
+     * @return
+     */
+    public static long getMillis() {
+    	
+    	return getElapsed(TimeUnit.MILLISECONDS, false);
+    	
+    }
+    
+    /**
+     * Get the elapsed time since start in nano seconds.
+     * If the watch was not started, return 0;
+     * @return
+     */
+    public static long getNanos() {
+    	
+    	return getElapsed(TimeUnit.NANOSECONDS, false);
+    	
+    }
+    
     /**
      * Stop the watch and get the elapsed time since start in milli seconds.
      * If the watch was not started, return 0;
@@ -36,7 +63,7 @@ public class NanoStopWatch {
      */
     public static long stopAndGetMillis() {
     	
-    	return stopAndGetElapsed(TimeUnit.MILLISECONDS);
+    	return getElapsed(TimeUnit.MILLISECONDS, true);
     	
     }
     
@@ -47,18 +74,22 @@ public class NanoStopWatch {
      */
     public static long stopAndGetNanos() {
     	
-    	return stopAndGetElapsed(TimeUnit.NANOSECONDS);
+    	return getElapsed(TimeUnit.NANOSECONDS, true);
     	
     }
-    
-    
-    
-    private static long stopAndGetElapsed(TimeUnit tu) {
+
+
+    /*
+     * 
+     */
+    private static long getElapsed(TimeUnit tu, boolean stop) {
         
         long elapsed = System.nanoTime() - begin;
         
         if (running) {
-            running = false;
+        	if(stop) {
+        		running = false;
+        	}
             switch (tu) {
 			case MILLISECONDS:
 				return TimeUnit.NANOSECONDS.toMillis(elapsed);

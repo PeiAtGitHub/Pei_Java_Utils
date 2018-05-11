@@ -24,6 +24,7 @@ public class Constants {
 	public final static String COMMA = ",";
     public final static String SEMICOLON = ";";
     public final static String DASH = "-";
+    public final static String UNDER_SCORE = "_";
     public final static String NULL_TEXT = "null";
 
     /** 1 K Bytes */
@@ -52,6 +53,8 @@ public class Constants {
     public final static String FIRST_NAME = "FirstName";
     public final static String LAST_NAME = "LastName";
     
+	public final static String HELLO_WORLD = "HELLO WORLD";
+
     public final static String SHOULDv_THROWN_EXCEPTION = "Should'v thrown exception.";
     public final static String CODE_SHOULD_NOT_BE_REACHED = "Code should not be reached.";
     
