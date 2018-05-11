@@ -207,13 +207,35 @@ public class Utils {
      * @param fnc
      */
     public static void ifNotNull(Object obj, NonArgFunction fnc) {
-    	ifTrue((obj != null), fnc);
+    	ifThen((obj != null), fnc);
     }
 
-    
-    public static void ifTrue(boolean flag, NonArgFunction fnc) {
+    /**
+     * If flag is true, run function.
+     * Simplify the usually 3 lines code if(...){...} to one line
+     * 
+     * @param flag
+     * @param fnc
+     */
+    public static void ifThen(boolean flag, NonArgFunction fnc) {
     	if(flag) {
     		fnc.doSth();	
+    	}
+    }
+
+    /**
+     * If flag is true, run function1, else, run function2
+     * Simplify the usually 5 lines code to one line
+     * 
+     * @param flag
+     * @param fnc1
+     * @param fnc2
+     */
+    public static void ifElse(boolean flag, NonArgFunction fnc1, NonArgFunction fnc2) {
+    	if(flag) {
+    		fnc1.doSth();	
+    	}else {
+    		fnc2.doSth();
     	}
     }
 
