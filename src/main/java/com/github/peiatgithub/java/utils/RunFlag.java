@@ -16,14 +16,14 @@ package com.github.peiatgithub.java.utils;
  */
 public class RunFlag {
 	
-	private static boolean internalFlag = false;
+	private static int counter = 0;
 	
 	/**
 	 * Put this method call to where you what to see if the code will be reached.
 	 * @return
 	 */
 	public static void run() {
-		setInternalFlag(true);
+		incrementCounter();
 	}
 
 	/**
@@ -31,9 +31,15 @@ public class RunFlag {
 	 * @return
 	 */
 	public static boolean hasRun() {
-		boolean result  = isInternalFlag();
-		reset();
-		return result;
+		return runTimes() > 0;
+	}
+
+	/**
+	 * Returns how many times RunFlag.run() has been invoked.
+	 * @return
+	 */
+	public static int runTimes() {
+		return getCounter();
 	}
 	
 	/**
@@ -41,24 +47,19 @@ public class RunFlag {
 	 * @return
 	 */
 	public static void reset() {
-		setInternalFlag(false);
+		counter = 0;
 	}
 
 
 	/*
 	 * 
 	 */
-	private static void setInternalFlag(boolean value) {
-		internalFlag = value;
+	private static void incrementCounter() {
+		counter++;
 	}
 
-
-	private static boolean isInternalFlag() {
-		return internalFlag;
+	private static int getCounter() {
+		return counter;
 	}
-
-	
-
-
 	
 }

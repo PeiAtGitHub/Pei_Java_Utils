@@ -7,7 +7,6 @@ import static com.github.peiatgithub.java.utils.Constants.*;
 import com.github.peiatgithub.java.utils.NanoStopWatch;
 import com.github.peiatgithub.java.utils.RunFlag;
 
-import static org.junit.Assert.*;
 
 import org.junit.Test;
 
@@ -93,7 +92,6 @@ public class UtilsTests {
 		assertThat(NanoStopWatch.stopAndGetMillis(), is(0L));
 		assertThat(NanoStopWatch.getMillis(), is(0L));
 
-		//
 		NanoStopWatch.begin();
 		threadSleep(1);
 		assertThat(NanoStopWatch.getMillis(), greaterThanOrEqualTo(1L));
@@ -106,7 +104,6 @@ public class UtilsTests {
 		threadSleep(1);
 		assertThat(NanoStopWatch.stopAndGetNanos(), greaterThanOrEqualTo(2000000L));
 
-		//
 		threadSleep(1);
 		assertThat(NanoStopWatch.getNanos(), is(0L));
 		assertThat(NanoStopWatch.stopAndGetNanos(), is(0L));
@@ -118,10 +115,11 @@ public class UtilsTests {
 	
 		RunFlag.reset();
 		assertThat(RunFlag.hasRun(), is(false));
+		assertThat(RunFlag.runTimes(), is(0));
 		
-		RunFlag.run();
+		repeatRun(3, ()->RunFlag.run());
 		assertThat(RunFlag.hasRun(), is(true));
-		assertThat(RunFlag.hasRun(), is(false));
+		assertThat(RunFlag.runTimes(), is(3));
 		
 	}
 	
@@ -131,9 +129,13 @@ public class UtilsTests {
 		RunFlag.reset();
 		ifNotNull(NULL_TEXT, ()->RunFlag.run());
 		assertThat(RunFlag.hasRun(), is(true));
+		assertThat(RunFlag.runTimes(), is(1));
 		
+		RunFlag.reset();
 		ifNotNull(null, ()-> RunFlag.run());
 		assertThat(RunFlag.hasRun(), is(false));
+		assertThat(RunFlag.runTimes(), is(0));
+		
 	}
 	
 	@Test
