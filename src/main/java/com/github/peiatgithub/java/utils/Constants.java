@@ -56,7 +56,8 @@ public class Constants {
 	public final static String HELLO_WORLD = "HELLO WORLD";
 
     public final static String SHOULDv_THROWN_EXCEPTION = "Should'v thrown exception.";
-    public final static String CODE_SHOULD_NOT_BE_REACHED = "Code should not be reached.";
+    public final static String CODE_SHOULD_NOT_REACH_HERE = "Code should not reach here.";
+    public final static String UNSUPPORTED_CASE = "Unsupported case.";
     
     public final static String S1 = "S1";
     public final static String S2 = "S2";
@@ -95,6 +96,12 @@ public class Constants {
     	map123.put(S3, 3);
     	TEST_MAP_123 = Collections.unmodifiableMap(map123);
     }
+    
+    public static final Class<NullPointerException> NPE = NullPointerException.class;
+    public static final Class<IllegalStateException> ISE = IllegalStateException.class;
+    public static final Class<UnsupportedOperationException> UOE = UnsupportedOperationException.class;
+    public static final Class<IllegalArgumentException> IAE = IllegalArgumentException.class;
+    public static final Class<IndexOutOfBoundsException> IOBE = IndexOutOfBoundsException.class;
     
     /*
      * some web resources

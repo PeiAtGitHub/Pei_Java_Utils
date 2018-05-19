@@ -91,7 +91,7 @@ public class Utils {
      * @param num
      * @return
      */
-    public static String numberToReadableString(long num) {
+    public static String numberToReadable(long num) {
         String result = "";
         double numAbs = Math.abs(num);
 

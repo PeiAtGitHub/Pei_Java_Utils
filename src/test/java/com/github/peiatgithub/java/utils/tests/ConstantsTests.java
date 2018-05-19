@@ -1,8 +1,9 @@
 package com.github.peiatgithub.java.utils.tests;
 
 import static org.junit.Assert.*;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.CoreMatchers.*;
+import static org.assertj.core.api.Assertions.*;
+
 import static com.github.peiatgithub.java.utils.Constants.*;
 
 import org.junit.Test;
@@ -17,10 +18,10 @@ public class ConstantsTests {
 	@Test
 	public void testCollectionInitialized() throws Exception {
 		
-		assertThat(TEST_LIST_123, hasSize(3));
-		assertThat(TEST_SET_123, hasSize(3));
-		assertThat(TEST_MAP_123.size(), is(3));
-		assertThat(TEST_INT_ARRAY_123.length, is(3));
+		assertThat(TEST_LIST_123).hasSize(3);
+		assertThat(TEST_SET_123).hasSize(3);
+		assertThat(TEST_MAP_123).hasSize(3);
+		assertThat(TEST_INT_ARRAY_123).hasSize(3);
 		
 	}
 	
