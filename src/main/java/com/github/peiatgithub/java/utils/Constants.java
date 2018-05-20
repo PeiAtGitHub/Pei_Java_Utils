@@ -25,7 +25,10 @@ public class Constants {
 	public final static String COMMA = ",";
     public final static String SEMICOLON = ";";
     public final static String DASH = "-";
+    public final static String DOT = ".";
     public final static String UNDER_SCORE = "_";
+    public final static String ASTERISK = "*";
+    public final static String SLASH = "/";
     public final static String NULL_TEXT = "null";
 
     /** Number of 1 K Bytes */

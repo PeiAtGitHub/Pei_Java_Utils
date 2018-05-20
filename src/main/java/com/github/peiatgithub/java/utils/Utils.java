@@ -252,4 +252,15 @@ public class Utils {
         return sum;
     }
     
+    /**
+     * <pre>
+     * The java.lang.StringBuilder has no method to reset/clear its content simply and explicitly.
+     * This method do so.
+     * </pre>
+     */
+    public static void clearStringBuilder(StringBuilder sb) {
+		sb.setLength(0);
+	}
+
+    
 }
