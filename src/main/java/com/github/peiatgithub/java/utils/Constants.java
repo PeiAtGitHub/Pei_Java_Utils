@@ -9,15 +9,16 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * 
+ * <pre>
+ * This class contains some commonly-used and general purpose constants,
+ * some of which are especially for tests and demos
+ * so that you don't always need to declare or create test data.
+ * </pre>
  * @author pei
  * @since 1.0
  */
 public class Constants {
 
-	/*
-     *  Some general purpose commonly used constants 
-     */
 	public final static String EMPTY = "";
 	public final static String SPACE = " ";
 
@@ -27,11 +28,11 @@ public class Constants {
     public final static String UNDER_SCORE = "_";
     public final static String NULL_TEXT = "null";
 
-    /** 1 K Bytes */
+    /** Number of 1 K Bytes */
     public final static long KB = 1024L;
-    /** 1 M Bytes */
+    /** Number of 1 M Bytes */
     public final static long MB = KB * KB;
-    /** 1 G Bytes */
+    /** Number of 1 G Bytes */
     public final static long GB = MB * KB;
 
     /** 1 thousand */
@@ -41,13 +42,16 @@ public class Constants {
     /** 1 billion */
     public final static long BN = MN * K;
     
-    /** 1 light year in Km */
+    /** Number of 1 light year in Km */
     public final static long LIGHT_YEAR_IN_KM = 300000L * 60 * 60 * 24 * 365;
     
     /*
      * some test data 
      */
 	public final static String STR = "STR";
+	public final static String S1 = "S1";
+	public final static String S2 = "S2";
+	public final static String S3 = "S3";
 	public final static String DEFAULT_STR = "DEFAULT_STR";
 	
     public final static String FIRST_NAME = "FirstName";
@@ -58,18 +62,14 @@ public class Constants {
     public final static String SHOULDv_THROWN_EXCEPTION = "Should'v thrown exception.";
     public final static String CODE_SHOULD_NOT_REACH_HERE = "Code should not reach here.";
     public final static String UNSUPPORTED_CASE = "Unsupported case.";
-    
-    public final static String S1 = "S1";
-    public final static String S2 = "S2";
-    public final static String S3 = "S3";
 
-    /** an immutable list as test data, contains integers 1, 2, 3 */
+    /** An immutable list as test data, contains integers 1, 2, 3 */
     public final static List<Integer> TEST_LIST_123;
-    /** an immutable set as test data, contains integers 1, 2, 3 */
+    /** An immutable set as test data, contains integers 1, 2, 3 */
     public final static Set<Integer> TEST_SET_123;
-    /** an immutable map as test data, contains pairs S1=1, S2=2, S3=3 */
+    /** An immutable map as test data, contains entries S1=1, S2=2, S3=3 */
     public final static Map<String, Integer> TEST_MAP_123;
-    /** an array as test data, contains int 1, 2, 3 */
+    /** An array as test data, contains int 1, 2, 3 */
     public final static int[] TEST_INT_ARRAY_123 = new int[] {1, 2, 3};
 
     private final static List<Integer> list123; 

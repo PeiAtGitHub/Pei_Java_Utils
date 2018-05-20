@@ -9,7 +9,7 @@ import com.github.peiatgithub.java.utils.function.NonArgFunction;
 import static com.github.peiatgithub.java.utils.Constants.*;
 
 /**
- * 
+ * Misc utility methods.
  * @author pei
  * @since 1.0
  */
@@ -26,7 +26,6 @@ public class Utils {
     
     /**
      * Simplify the codes to catch an unchecked exception, usually the RuntimeException.
-     * @param function
      * @return The Throwable thrown by the function. null if no throwable is thrown.
      */
     public static Throwable catchThrowable(NonArgFunction function) {
@@ -40,31 +39,27 @@ public class Utils {
     
     /**
      * Simplifies the code to repeatedly run a piece of code for N times.
-     * @param times
-     * @param function
      */
     public static void repeatRun(int times, NonArgFunction function) {
     	IntStream.range(0, times).forEach(i->function.doSth());
     }
     
     /**
+     * <pre>
      * Simplify the code to repeatedly run a piece of code for N times.
      * Takes the iteration index as arg of the to-run code.
-     * @param times
-     * @param function
+     * </pre>
      */
     public static void repeatRun(int times, Consumer<Integer> c) {
     	IntStream.range(0, times).forEach(i->c.accept(i));
     }
     
     /**
+     * <pre>
      * Display the number of bytes in a human readable way.
-     * 
-     * Apache Commons FileUtils.byteCountToDisplaySize() rounds down to integer numbers.
-     * 
+     * Apache Commons FileUtils.byteCountToDisplaySize() rounds down to integer number.
      * This method keeps 1 digit after decimal point.
-     * 
-     * @param numOfBytes
+     * </pre>
      * @return the readable String
      */
     public static String bytesToReadable(double numOfBytes) {
@@ -88,11 +83,9 @@ public class Utils {
     
     /**
      * returns the human readable String of a number with proper units
-     * @param num
-     * @return
      */
     public static String numberToReadable(long num) {
-        String result = "";
+        String result = EMPTY;
         double numAbs = Math.abs(num);
 
         DecimalFormat df = new DecimalFormat("#.#");
@@ -116,10 +109,11 @@ public class Utils {
 
 
     /**
+     * <pre>
      * Make the codes for Thread.sleep(millis) in one line by 
-     * swallowing the InterruptedException (just call e.printStackTrace())
-     * 
-     * @param millis
+     * swallowing the InterruptedException 
+     * (just call e.printStackTrace())
+     * </pre>
      */
     public static void threadSleep(long millis) {
     	try {
@@ -143,10 +137,11 @@ public class Utils {
     
 
     /**
+     * <pre>
      * Make the codes for thread.join() in one line by 
-     * swallowing the InterruptedException (just call e.printStackTrace())
-     * 
-     * @param the thread to join
+     * swallowing the InterruptedException 
+     * (just call e.printStackTrace())
+     * </pre>
      */
     public static void threadJoin(Thread thr) {
     	try {
@@ -159,15 +154,16 @@ public class Utils {
     
     
     /**
-     * Get the sub String between the n1th and the n2th delimiter 
-     * index begins from 0
+     * <pre>
+     * Get the sub String between the n1th and the n2th delimiter. 
+     * Index begins from 0
      * E.g. 
      * getSubString("111,aaa,bbb,,ccc", ",", 1, 2) returns "bbb"
      * getSubString("111,aaa,bbb,,ccc", ",", -1, 1) returns "111,aaa"
      * getSubString("111,aaa,bbb,,ccc", ",", 2, 3) returns ""
      * getSubString("111,aaa,bbb,,ccc", ",", x, x) returns ""
      * getSubString("111,aaa,bbb,,ccc", ",", x, [a value bigger than the max occurrence number of delimiter]) returns ""
-     * 
+     * </pre>
      */
     public static String getSubString(String str, String delimiter, int n1, int n2) {
         if (n2 <= n1) {
@@ -195,6 +191,7 @@ public class Utils {
     }
     
     /**
+     * <pre>
      * If obj is not null, run fnc.
      * 
      * Simplify the following code to one line:
@@ -202,20 +199,21 @@ public class Utils {
      * if (sth != null){
      *     run some code;
      * }
-     * 
-     * @param obj
-     * @param fnc
+     * </pre>
      */
     public static void ifNotNull(Object obj, NonArgFunction fnc) {
     	ifThen((obj != null), fnc);
     }
 
     /**
+     * <pre>
      * If flag is true, run function.
-     * Simplify the usually 3 lines code if(...){...} to one line
-     * 
-     * @param flag
-     * @param fnc
+     * Simplify the following code to 1 line: 
+     * if(flag){
+     *     fnc.doSth();
+     * }
+     * This is especially helpful when fnc is just a simple 1 line code.
+     * </pre>
      */
     public static void ifThen(boolean flag, NonArgFunction fnc) {
     	if(flag) {
@@ -224,12 +222,16 @@ public class Utils {
     }
 
     /**
+     * <pre>
      * If flag is true, run function1, else, run function2
-     * Simplify the usually 5 lines code to one line
-     * 
-     * @param flag
-     * @param fnc1
-     * @param fnc2
+     * Simplify the following code to 1 line:
+       if(flag) {
+           fnc1.doSth();
+       }else {
+           fnc2.doSth();
+       }
+       This is especially helpful when fnc1 and fnc2 are just simple 1 line codes.
+     * </pre>
      */
     public static void ifElse(boolean flag, NonArgFunction fnc1, NonArgFunction fnc2) {
     	if(flag) {
@@ -241,8 +243,6 @@ public class Utils {
 
     /**
      * get the sum value of an array of int numbers.
-     * @param numbers
-     * @return
      */
     public static int intsSum(int... numbers) {
         int sum = 0;

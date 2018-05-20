@@ -5,8 +5,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * 
- * A stop watch to measure the elapsed time from previous call of begin()
- * to the call of a stopXXX method.
+ * A stop watch to measure the elapsed time since previous call of begin()
  * 
  * @author pei
  *
@@ -35,9 +34,10 @@ public class NanoStopWatch {
 
     
     /**
+     * <pre>
      * Get the elapsed time since start in milli seconds.
-     * If the watch was not started, return 0;
-     * @return
+     * If the watch was not started, return 0.
+     * </pre>
      */
     public static long getMillis() {
     	
@@ -46,9 +46,10 @@ public class NanoStopWatch {
     }
     
     /**
+     * <pre>
      * Get the elapsed time since start in nano seconds.
-     * If the watch was not started, return 0;
-     * @return
+     * If the watch was not started, return 0.
+     * </pre>
      */
     public static long getNanos() {
     	
@@ -57,9 +58,10 @@ public class NanoStopWatch {
     }
     
     /**
+     * <pre>
      * Stop the watch and get the elapsed time since start in milli seconds.
-     * If the watch was not started, return 0;
-     * @return
+     * If the watch was not started, return 0.
+     * </pre>
      */
     public static long stopAndGetMillis() {
     	
@@ -68,9 +70,10 @@ public class NanoStopWatch {
     }
     
     /**
+     * <pre>
      * Stop the watch and get the elapsed time since start in nano seconds.
-     * If the watch was not started, return 0;
-     * @return
+     * If the watch was not started, return 0.
+     * </pre>
      */
     public static long stopAndGetNanos() {
     	
@@ -82,6 +85,7 @@ public class NanoStopWatch {
     /*
      * 
      */
+    
     private static long getElapsed(TimeUnit tu, boolean stop) {
         
         long elapsed = System.nanoTime() - begin;
