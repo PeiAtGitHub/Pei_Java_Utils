@@ -204,6 +204,20 @@ public class Utils {
     public static void ifNotNull(Object obj, NonArgFunction fnc) {
     	ifThen((obj != null), fnc);
     }
+    /**
+     * <pre>
+     * If obj is null, run fnc.
+     * 
+     * Simplify the following code to one line:
+     * 
+     * if (sth == null){
+     *     run some code;
+     * }
+     * </pre>
+     */
+    public static void ifNull(Object obj, NonArgFunction fnc) {
+    	ifThen((obj == null), fnc);
+    }
 
     /**
      * <pre>
@@ -261,6 +275,27 @@ public class Utils {
     public static void clearStringBuilder(StringBuilder sb) {
 		sb.setLength(0);
 	}
+    
+    /**
+	 * <pre>
+	 * Convert a String's first char to upper case AND all other chars to lower case.
+	 * Empty input returns empty. 
+	 * Null input returns null.
+	 * </pre>
+	 */
+	  public static String onlyFirstCapital(String str){
+		  
+		  if(str == null) {
+			  return null;
+		  }
+		  
+		  if(str.length() <= 1) {
+			  return str.toUpperCase();
+		  }else {
+			  return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
+		  }
+		  
+	  }
 
     
 }

@@ -149,5 +149,22 @@ public class UtilsTests {
 		assertThat(t.isAlive()).isFalse();
 		
 	}
+	
+	@Test
+	public void testOnlyFirstCapital() throws Exception {
+		
+		assertThat(onlyFirstCapital("HELLO!"), is("Hello!"));
+		assertThat(onlyFirstCapital("hello!"), is("Hello!"));
+		assertThat(onlyFirstCapital("Hello!"), is("Hello!"));
+		assertThat(onlyFirstCapital("HE"), is("He"));
+		assertThat(onlyFirstCapital("h!"), is("H!"));
+		assertThat(onlyFirstCapital("h"), is("H"));
+		assertThat(onlyFirstCapital("H"), is("H"));
+		assertThat(onlyFirstCapital("!"), is("!"));
+		assertThat(onlyFirstCapital(""), is(""));
+		assertThat(onlyFirstCapital(null), nullValue());
+
+	}
+
 
 }
