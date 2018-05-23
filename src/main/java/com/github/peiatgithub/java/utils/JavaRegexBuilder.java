@@ -31,6 +31,18 @@ public class JavaRegexBuilder {
 		return this;
 	}
 	/**
+	 * Simpler form of calling append(text).times(n) 
+	 */
+	public JavaRegexBuilder append(String text, int n) {
+		return append(text).times(n);
+	}
+	/**
+	 * Simpler form of calling append(text).times(from, to) 
+	 */
+	public JavaRegexBuilder append(String text, int from, int to) {
+		return append(text).times(from, to);
+	}
+	/**
 	 * <pre>
 	 * Append literal to the regex.
 	 * NOTE: User must handle char escape on their own.
@@ -39,10 +51,36 @@ public class JavaRegexBuilder {
 	public JavaRegexBuilder literal(String literal) {
 		return append(literal);
 	}
+	/**
+	 * Simpler form of calling literal(literal).times(n) 
+	 */
+	public JavaRegexBuilder literal(String literal, int n) {
+		return literal(literal).times(n);
+	}
+	/**
+	 * Simpler form of calling literal(literal).times(from, to) 
+	 */
+	public JavaRegexBuilder literal(String literal, int from, int to) {
+		return literal(literal).times(from, to);
+	}
 
-	
+	/**
+	 * . 
+	 */
 	public JavaRegexBuilder anyChar() {
 		return append(".");
+	}
+	/**
+	 * Simpler form of calling anyChar().times(n) 
+	 */
+	public JavaRegexBuilder anyChar(int n) {
+		return anyChar().times(n);
+	}
+	/**
+	 * Simpler form of calling anyChar().times(from, to) 
+	 */
+	public JavaRegexBuilder anyChar(int from, int to) {
+		return anyChar().times(from, to);
 	}
 	
 	/**
@@ -52,10 +90,34 @@ public class JavaRegexBuilder {
 		return append("\\d");
 	}
 	/**
+	 * Simpler form of calling digit().times(n) 
+	 */
+	public JavaRegexBuilder digit(int n) {
+		return digit().times(n);
+	}
+	/**
+	 * Simpler form of calling digit().times(from, to) 
+	 */
+	public JavaRegexBuilder digit(int from, int to) {
+		return digit().times(from, to);
+	}
+	/**
 	 * \\D
 	 */
 	public JavaRegexBuilder nonDigit() {
 		return append("\\D");
+	}
+	/**
+	 * Simpler form of calling nonDigit().times(n) 
+	 */
+	public JavaRegexBuilder nonDigit(int n) {
+		return nonDigit().times(n);
+	}
+	/**
+	 * Simpler form of calling nonDigit().times(from, to) 
+	 */
+	public JavaRegexBuilder nonDigit(int from, int to) {
+		return nonDigit().times(from, to);
 	}
 	
 	/**
@@ -65,10 +127,34 @@ public class JavaRegexBuilder {
 		return append("\\s");
 	}
 	/**
+	 * Simpler form of calling whiteSpace().times(n) 
+	 */
+	public JavaRegexBuilder whiteSpace(int n) {
+		return whiteSpace().times(n);
+	}
+	/**
+	 * Simpler form of calling whiteSpace().times(from, to) 
+	 */
+	public JavaRegexBuilder whiteSpace(int from, int to) {
+		return whiteSpace().times(from, to);
+	}
+	/**
 	 * \\S 
 	 */
 	public JavaRegexBuilder nonWhiteSpace() {
 		return append("\\S");
+	}
+	/**
+	 * Simpler form of calling nonWhiteSpace().times(n) 
+	 */
+	public JavaRegexBuilder nonWhiteSpace(int n) {
+		return nonWhiteSpace().times(n);
+	}
+	/**
+	 * Simpler form of calling nonWhiteSpace().times(from, to) 
+	 */
+	public JavaRegexBuilder nonWhiteSpace(int from, int to) {
+		return nonWhiteSpace().times(from, to);
 	}
 	
 	/**
@@ -78,10 +164,34 @@ public class JavaRegexBuilder {
 		return append("\\w");
 	}
 	/**
+	 * Simpler form of calling wordChar().times(n) 
+	 */
+	public JavaRegexBuilder wordChar(int n) {
+		return wordChar().times(n);
+	}
+	/**
+	 * Simpler form of calling wordChar().times(from, to) 
+	 */
+	public JavaRegexBuilder wordChar(int from, int to) {
+		return wordChar().times(from, to);
+	}
+	/**
 	 * \\W
 	 */
 	public JavaRegexBuilder nonWordChar() {
 		return append("\\W");
+	}
+	/**
+	 * Simpler form of calling nonWordChar().times(n) 
+	 */
+	public JavaRegexBuilder nonWordChar(int n) {
+		return nonWordChar().times(n);
+	}
+	/**
+	 * Simpler form of calling nonWordChar().times(from, to) 
+	 */
+	public JavaRegexBuilder nonWordChar(int from, int to) {
+		return nonWordChar().times(from, to);
 	}
 	
 	/**
@@ -91,10 +201,34 @@ public class JavaRegexBuilder {
 		return append("[a-z]");
 	}
 	/**
+	 * Simpler form of calling lowerCaseLetters().times(n) 
+	 */
+	public JavaRegexBuilder lowerCaseLetters(int n) {
+		return lowerCaseLetters().times(n);
+	}
+	/**
+	 * Simpler form of calling lowerCaseLetters().times(from, to) 
+	 */
+	public JavaRegexBuilder lowerCaseLetters(int from, int to) {
+		return lowerCaseLetters().times(from, to);
+	}
+	/**
 	 * 26 upper case English letters 
 	 */
 	public JavaRegexBuilder upperCaseLetters() {
 		return append("[A-Z]");
+	}
+	/**
+	 * Simpler form of calling upperCaseLetters().times(n) 
+	 */
+	public JavaRegexBuilder upperCaseLetters(int n) {
+		return upperCaseLetters().times(n);
+	}
+	/**
+	 * Simpler form of calling upperCaseLetters().times(from, to) 
+	 */
+	public JavaRegexBuilder upperCaseLetters(int from, int to) {
+		return upperCaseLetters().times(from, to);
 	}
 	/**
 	 * 26 lower case + 26 upper case English letters 
@@ -102,12 +236,36 @@ public class JavaRegexBuilder {
 	public JavaRegexBuilder lettersIgnoreCase() {
 		return append("[a-zA-Z]");
 	}
+	/**
+	 * Simpler form of calling lettersIgnoreCase().times(n) 
+	 */
+	public JavaRegexBuilder lettersIgnoreCase(int n) {
+		return lettersIgnoreCase().times(n);
+	}
+	/**
+	 * Simpler form of calling lettersIgnoreCase().times(from, to) 
+	 */
+	public JavaRegexBuilder lettersIgnoreCase(int from, int to) {
+		return lettersIgnoreCase().times(from, to);
+	}
 
 	/**
 	 * 26 lower case + 26 upper case English letters + 10 digits(0-9) 
 	 */
 	public JavaRegexBuilder lettersAndNumbers() {
 		return append("[a-zA-Z0-9]");
+	}
+	/**
+	 * Simpler form of calling lettersAndNumbers().times(n) 
+	 */
+	public JavaRegexBuilder lettersAndNumbers(int n) {
+		return lettersAndNumbers().times(n);
+	}
+	/**
+	 * Simpler form of calling lettersAndNumbers().times(from, to) 
+	 */
+	public JavaRegexBuilder lettersAndNumbers(int from, int to) {
+		return lettersAndNumbers().times(from, to);
 	}
 	
 	/**
@@ -155,7 +313,7 @@ public class JavaRegexBuilder {
 	/**
 	 * Occurrence times, 1 or more
 	 */
-	public JavaRegexBuilder atLeastOne() {
+	public JavaRegexBuilder oneOrMore() {
 		return append("+");
 	}
 	/**
