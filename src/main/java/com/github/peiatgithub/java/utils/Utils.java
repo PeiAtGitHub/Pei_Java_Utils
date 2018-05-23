@@ -26,20 +26,6 @@ public class Utils {
         System.out.format("%s: %s%n", Thread.currentThread().getName(), message);
     }
     
-    
-    /**
-     * Simplify the codes to catch an unchecked exception, usually the RuntimeException.
-     * @return The Throwable thrown by the function. null if no throwable is thrown.
-     */
-    public static Throwable catchThrowable(NonArgFunction function) {
-        try {
-            function.doSth();
-            return null;
-        } catch (Throwable t) {
-            return t;
-        }
-    }
-    
     /**
      * Simplifies the code to repeatedly run a piece of code for N times.
      */
