@@ -39,6 +39,13 @@
 
 	<dependencies>
 
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.7</version>
+		</dependency>
+
+
 		<!-- https://mvnrepository.com/artifact/junit/junit -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -46,7 +53,7 @@
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<!-- https://mvnrepository.com/artifact/org.assertj/assertj-core -->
 		<dependency>
 			<groupId>org.assertj</groupId>
@@ -134,7 +141,7 @@
 				</repository>
 			</distributionManagement>
 		</profile>
-		
+
 
 		<profile>
 			<id>local-install</id>
@@ -186,7 +193,7 @@
 				</plugins>
 			</build>
 		</profile>
-				
+
 	</profiles>
 
 </project>

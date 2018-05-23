@@ -166,5 +166,18 @@ public class UtilsTests {
 
 	}
 
+	@Test
+	public void testRandomNumberOfDigits() throws Exception {
+		
+		assertThatThrownBy(()->randomNumberOfDigit(-1)).isInstanceOf(IAE).hasMessageContaining("[1, 18]");
+		assertThatThrownBy(()->randomNumberOfDigit(0)).isInstanceOf(IAE).hasMessageContaining("[1, 18]");
+		assertThatThrownBy(()->randomNumberOfDigit(19)).isInstanceOf(IAE).hasMessageContaining("[1, 18]");
+		
+		assertThat(randomNumberOfDigit(1)).isGreaterThanOrEqualTo(0).isLessThanOrEqualTo(9);
+		assertThat(randomNumberOfDigit(3)).isGreaterThanOrEqualTo(100).isLessThanOrEqualTo(999);
+		assertThat(randomNumberOfDigit(18))
+			.isGreaterThanOrEqualTo(100000000000000000L).isLessThanOrEqualTo(999999999999999999L);
+		
+	}
 
 }

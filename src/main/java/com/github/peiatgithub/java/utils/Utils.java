@@ -4,6 +4,9 @@ import java.text.DecimalFormat;
 import java.util.function.Consumer;
 import java.util.stream.IntStream;
 
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
+
 import com.github.peiatgithub.java.utils.function.NonArgFunction;
 
 import static com.github.peiatgithub.java.utils.Constants.*;
@@ -294,6 +297,35 @@ public class Utils {
 		  }else {
 			  return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
 		  }
+		  
+	  }
+
+
+	  /**
+	   * <pre>
+	   * Creates a random positive integer number with specified number of digits.
+	   * (The first digit will not be 0 unless there is only 1 digit.)
+	   * (Digit number must be in range of [1, 18] because Long.MAX_VALUE is a 19 Digit number) 
+	   * E.g.
+	   * randomNumberOfDigit(3) creates a number in [100, 999]
+	   * randomNumberOfDigit(1) creates a number in [0, 9]
+	   * 
+	   * </pre>
+	   * @param digit must be in range of [1, 18], otherwise will throw exception.
+	   */
+	  public static long randomNumberOfDigit(int digit) {
+		  
+		  String result;
+		  if(digit <= 0 || digit >=19) {
+			  throw new IllegalArgumentException("'digit' must be in range of [1, 18].");
+		  }else if(digit == 1 ){
+			  result = RandomStringUtils.randomNumeric(1);
+		  }else { // digit >1
+			  String firstDigit =  RandomStringUtils.random(1, "123456789");
+			  String otherDigits = RandomStringUtils.randomNumeric(digit -1);
+			  result  = firstDigit + otherDigits;
+		  }
+		  return Long.valueOf(result);
 		  
 	  }
 
