@@ -116,7 +116,7 @@ public class XpathBuilder {
 	 * </pre>
 	 */
 	public XpathBuilder precedingSibling(boolean all) {
-		appendTailSlashIfNotPresent();
+		ensureEndWith(this.xpath, SLASH);
 		
 		this.xpath.append("preceding-sibling::");
 		if (all) {
@@ -134,7 +134,7 @@ public class XpathBuilder {
 	 * </pre>  
 	 */
 	public XpathBuilder followingSibling(boolean all) {
-		appendTailSlashIfNotPresent();
+		ensureEndWith(this.xpath, SLASH);
 		
 		this.xpath.append("following-sibling::");
 		if (all) {
@@ -149,8 +149,8 @@ public class XpathBuilder {
 	 * @param selfInclusive include the current node or not
 	 */
 	public XpathBuilder ancestor(boolean all, boolean selfInclusive) {
-		appendTailSlashIfNotPresent();
-
+		ensureEndWith(this.xpath, SLASH);
+		
 		if (selfInclusive) {
 			this.xpath.append("ancestor-or-self::");
 		} else {
@@ -169,7 +169,7 @@ public class XpathBuilder {
 	 * @param selfInclusive include the current node or not
 	 */
 	public XpathBuilder descendant(boolean all, boolean selfInclusive) {
-		appendTailSlashIfNotPresent();
+		ensureEndWith(this.xpath, SLASH);
 		
 		if (selfInclusive) {
 			this.xpath.append("descendant-or-self::");
@@ -373,13 +373,4 @@ public class XpathBuilder {
 		return this.xpath.toString();
 	}
 
-	/*
-	 * 
-	 */
-	
-	private void appendTailSlashIfNotPresent() {
-		if(!this.xpath.toString().endsWith(SLASH)) {
-			this.xpath.append(SLASH);
-		}
-	}
 }

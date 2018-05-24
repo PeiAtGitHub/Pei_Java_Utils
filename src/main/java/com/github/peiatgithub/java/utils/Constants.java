@@ -29,6 +29,8 @@ public class Constants {
     public final static String UNDER_SCORE = "_";
     public final static String ASTERISK = "*";
     public final static String SLASH = "/";
+    public final static String QUESTION_MARK = "?";
+    public final static String PERCENTAGE = "%";
     public final static String NULL_TEXT = "null";
 
     /** Number of 1 K Bytes */
@@ -62,6 +64,8 @@ public class Constants {
     
 	public final static String HELLO_WORLD = "HELLO WORLD";
 
+	public final static String ARGUMENT_MUST_NOT_BE_NULL= "Argument must not be null.";
+	public final static String ARGUMENT_MUST_NOT_BE_NULL_OR_EMPTY = "Argument must not be null or empty.";
     public final static String SHOULDv_THROWN_EXCEPTION = "Should'v thrown exception.";
     public final static String CODE_SHOULD_NOT_REACH_HERE = "Code should not reach here.";
     public final static String UNSUPPORTED_CASE = "Unsupported case.";

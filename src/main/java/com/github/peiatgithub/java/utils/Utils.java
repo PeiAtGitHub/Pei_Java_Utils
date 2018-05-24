@@ -1,14 +1,23 @@
 package com.github.peiatgithub.java.utils;
 
 import java.text.DecimalFormat;
+import java.util.List;
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.assertj.core.util.Arrays;
 
 import com.github.peiatgithub.java.utils.function.NonArgFunction;
 
 import static com.github.peiatgithub.java.utils.Constants.*;
+import static com.github.peiatgithub.java.utils.Utils.ifThen;
+import static com.github.peiatgithub.java.utils.database.DBUtils.DISTINCT;
+import static com.github.peiatgithub.java.utils.database.DBUtils.SELECT;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 /**
  * Misc utility methods.
@@ -189,6 +198,21 @@ public class Utils {
 	}
 
 	/**
+	 * If the StringBuilder is not ended with the tail, then append the tail to the StringBuilder.
+	 * Both arguments must not be null, otherwise throw exception. 
+	 */
+	public static void ensureEndWith(StringBuilder sb, String tail) {
+		
+		Objects.requireNonNull(sb, ARGUMENT_MUST_NOT_BE_NULL);
+		Objects.requireNonNull(tail, ARGUMENT_MUST_NOT_BE_NULL);
+		
+		if(!(sb.toString().endsWith(tail))) {
+			sb.append(tail);
+		}
+	}
+	
+
+	/**
 	 * <pre>
 	 * Convert a String's first char to upper case AND all other chars to lower case.
 	 * Empty input returns empty. 
@@ -210,6 +234,34 @@ public class Utils {
 	}
 
 
+	/**
+	 * <pre>
+	 * Join the array of Strings with the separator.
+	 * One difference from Apache Commons StringUtils.join() is
+	 * 
+	 * StringUtils.join(["abc"], ';') returns "abc;"
+	 * StringUtils.join(["abc", "def", "ghi"], ';') returns "abc;def;ghi"
+	 * 
+	 * this method 
+	 * join(["abc"], ';') returns "abc"
+	 * join(["abc", "def", "ghi"], ';') returns "abc;def;ghi"
+	 * 
+	 * Throws exception if input array is null or empty.
+	 * </pre>
+	 */
+	public static String join(String[] arr, String separator) {
+		
+		if(Arrays.isNullOrEmpty(arr)) {
+			throw new IllegalArgumentException(ARGUMENT_MUST_NOT_BE_NULL_OR_EMPTY);
+		}
+		
+		if(arr.length == 1) {
+			return arr[0];
+		}else { // columns.length > 1
+			return StringUtils.join(arr, separator);
+		}
+		
+	}
 	/**
 	 * <pre>
 	 * Creates a random positive integer number with specified number of digits.
@@ -236,6 +288,13 @@ public class Utils {
 		}
 		return Long.valueOf(result);
 
+	}
+	
+	
+	public static Object[] listToArray(List<Object> l) {
+        Object[] arr = l.toArray(new Object[l.size()]);
+        return arr;
+		
 	}
 
 
