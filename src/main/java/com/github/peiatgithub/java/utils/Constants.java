@@ -69,6 +69,7 @@ public class Constants {
     public final static String SHOULDv_THROWN_EXCEPTION = "Should'v thrown exception.";
     public final static String CODE_SHOULD_NOT_REACH_HERE = "Code should not reach here.";
     public final static String UNSUPPORTED_CASE = "Unsupported case.";
+    public final static String NON_EXIST = "NON_EXIST";
 
     /** An immutable list as test data, contains integers 1, 2, 3 */
     public final static List<Integer> TEST_LIST_123;
@@ -84,7 +85,7 @@ public class Constants {
     private final static Map<String, Integer> map123;
     		
     static 
-    { // initialization in the awkward way so that no need to introduce external libraries. 
+    {  
     	list123 = new ArrayList<>();
     	list123.add(1);
     	list123.add(2);

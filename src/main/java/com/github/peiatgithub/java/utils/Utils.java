@@ -1,6 +1,7 @@
 package com.github.peiatgithub.java.utils;
 
 import java.text.DecimalFormat;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -257,9 +258,30 @@ public class Utils {
 		
 		if(arr.length == 1) {
 			return arr[0];
-		}else { // columns.length > 1
+		}else { // arr.length > 1
 			return StringUtils.join(arr, separator);
 		}
+		
+	}
+	
+	public static String listToString(List<String> l, String separator, String quote) {
+		if(l == null || l.isEmpty()) {
+			return null;
+		}
+		
+		if(separator == null) {
+			separator = EMPTY;
+		}
+		if(quote == null) {
+			quote = EMPTY;
+		}
+		
+		StringBuilder result = new StringBuilder(EMPTY);
+		for (String s : l) {
+			result.append(quote).append(s).append(quote).append(separator);
+		}
+
+		return StringUtils.removeEnd(result.toString(), separator);
 		
 	}
 	/**
@@ -290,14 +312,14 @@ public class Utils {
 
 	}
 	
-	
-	public static Object[] listToArray(List<Object> l) {
-        Object[] arr = l.toArray(new Object[l.size()]);
-        return arr;
-		
+	/**
+	 * If long integer "a" is divisible by "b". (Judgment is made simply by division remainder)
+	 */
+	public static boolean isDivisibleBy(long a, long b) {
+	    return (a%b == 0);
 	}
-
-
+	
+	
 	/**
 	 * <pre>
 	 * If obj is not null, run fnc.
@@ -373,8 +395,6 @@ public class Utils {
 		}
 		return sum;
 	}
-
-
 
 
 }

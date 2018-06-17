@@ -1,6 +1,9 @@
 package com.github.peiatgithub.java.utils.tests;
 
 import static org.junit.Assert.*;
+
+import org.assertj.core.util.Lists;
+
 import static org.hamcrest.CoreMatchers.*;
 import static org.assertj.core.api.Assertions.*;
 
@@ -179,5 +182,15 @@ public class UtilsTests {
 			.isGreaterThanOrEqualTo(100000000000000000L).isLessThanOrEqualTo(999999999999999999L);
 		
 	}
-
+	
+	@Test
+    public void testDivisibleBy() throws Exception {
+        
+	    assertThat(isDivisibleBy(9, 3));
+        assertThat(isDivisibleBy(0, 10));
+        assertThat(isDivisibleBy(10, 3)).isFalse();
+        
+        assertThatThrownBy(()->isDivisibleBy(10, 0)).isInstanceOf(ArithmeticException.class);
+    }
+	
 }
