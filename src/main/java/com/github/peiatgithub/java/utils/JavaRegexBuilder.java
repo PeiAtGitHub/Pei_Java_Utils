@@ -1,6 +1,7 @@
 package com.github.peiatgithub.java.utils;
 
 import static com.github.peiatgithub.java.utils.Constants.*;
+import static com.github.peiatgithub.java.utils.Utils.*;
 
 /**
  * 
@@ -290,19 +291,19 @@ public class JavaRegexBuilder {
 	 * Occurrence times 
 	 */
 	public JavaRegexBuilder times(int n) {
-		return append(String.format("{%d}", n));
+		return append(str("{{}}", n));
 	}
 	/**
 	 * Occurrence times, [from, to]
 	 */
 	public JavaRegexBuilder times(int from, int to) {
-		return append(String.format("{%d,%d}", from, to));
+		return append(str("{{},{}}", from, to));
 	}
 	/**
 	 * Occurrence times, at least n times
 	 */
 	public JavaRegexBuilder atLeast(int n) {
-		return append(String.format("{%d,}", n));
+		return append(str("{{},}", n));
 	}
 	/**
 	 * Occurrence times, 0 or 1

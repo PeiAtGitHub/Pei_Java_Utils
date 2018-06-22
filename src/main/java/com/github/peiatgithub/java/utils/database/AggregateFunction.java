@@ -1,5 +1,7 @@
 package com.github.peiatgithub.java.utils.database;
 
+import static com.github.peiatgithub.java.utils.Utils.*;
+
 /**
  * 
  * @author pei
@@ -8,19 +10,19 @@ package com.github.peiatgithub.java.utils.database;
 public class AggregateFunction {
 	
 	public static String count(String column) {
-		return String.format("COUNT(%s)", column);
+		return str("COUNT({})", column);
 	}
 	public static String max(String column) {
-		return String.format("MAX(%s)", column);
+		return str("MAX({})", column);
 	}
 	public static String min(String column) {
-		return String.format("MIN(%s)", column);
+		return str("MIN({})", column);
 	}
 	public static String sum(String column) {
-		return String.format("SUM(%s)", column);
+		return str("SUM({})", column);
 	}
 	public static String avg(String column) {
-		return String.format("AVG(%s)", column);
+		return str("AVG({})", column);
 	}
 
 }
