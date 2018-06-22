@@ -1,7 +1,6 @@
 package com.github.peiatgithub.java.utils;
 
 import java.text.DecimalFormat;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -14,11 +13,6 @@ import org.assertj.core.util.Arrays;
 import com.github.peiatgithub.java.utils.function.NonArgFunction;
 
 import static com.github.peiatgithub.java.utils.Constants.*;
-import static com.github.peiatgithub.java.utils.Utils.ifThen;
-import static com.github.peiatgithub.java.utils.database.DBUtils.DISTINCT;
-import static com.github.peiatgithub.java.utils.database.DBUtils.SELECT;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
 
 /**
  * Misc utility methods.
@@ -26,13 +20,77 @@ import static org.junit.Assert.assertThat;
  * @since 1.0
  */
 public class Utils {
+    
+    
+    /**
+     * <pre>
+     * This method is an easier alternative to the String.format(format, args...)
+     * 
+     * Usage:
+     *   str([format with place holders], Objects... args)
+     *   The place holder is "{}"
+     *   Use "'{''}'" for a literal "{}"
+     *   If a place holder cannot find corresponding value, the place holder will be present in the result
+     * 
+     * Example:
+     *   str("hello {}!") 
+     *   output: "hello {}!"
+     *   
+     *   str("hello {}, I have {} gift(s) for you!", "PEI", 100) 
+     *   output: "hello PEI, I have 100 gift(s) for you!"
+     *   
+     *   str("I can lend you my {}, since your {} is in workshop", "CAR")
+     *   output: "I can lend you my CAR, since your {} is in workshop"
+     *
+     *   str("I can lend you my {}, since your {} is in workshop", "CAR", "BIKE")
+     *   output: "I can lend you my CAR, since your BIKE is in workshop"
+     *   
+     *   str("I can lend you my {}, since your {} is in workshop", "CAR", "BIKE", "BOAT")
+     *   output: "I can lend you my CAR, since your BIKE is in workshop"
+     * 
+     * </pre>
+     *
+     * @since 5.0
+     */
+    public static String str(String format, Object... args) {
+        
+        String placeHolder = "{}";
+        String escapedPlaceHolder = "'{''}'";
+        
+        if(args == null || args.length == 0) {
+            return format;
+        }
+
+        int numOfPlaceHolder = StringUtils.countMatches(format, placeHolder);
+        int numOfValues = args.length;
+        
+        for(int i = 0; i< Math.min(numOfPlaceHolder, numOfValues); i++) {
+            format = StringUtils.replace(format, placeHolder, args[i].toString(), 1);
+        }
+        
+        // if there are more place holders than values, fill the rest of placeholders with the last value
+        // result  = StringUtils.replace(result, placeHolder, args[numOfValues -1].toString());
+
+        // escape
+        format  = StringUtils.replace(format, escapedPlaceHolder, placeHolder);
+        
+        return format;
+    }
+    
+    /**
+     * Similar to {@link #str}, with a system-dependent line separator at the end.
+     */
+    public static String strln(String format, Object... args) {
+        return str(format, args) + System.lineSeparator();
+    }
+    
 
 
 	/**
 	 *  println the message with the thread name prefixed.
 	 */
 	public static void printlnWithThreadName(String message) {
-		System.out.format("%s: %s%n", Thread.currentThread().getName(), message);
+		strln("{}: {}", Thread.currentThread().getName(), message);
 	}
 
 	/**
@@ -264,25 +322,54 @@ public class Utils {
 		
 	}
 	
-	public static String listToString(List<String> l, String separator, String quote) {
-		if(l == null || l.isEmpty()) {
+	/**
+	 * <pre>
+	 * Convert the list to a String representation with quotes and separators.
+	 * Example:
+	 * If a String List has "Tom" and "Jerry"
+	 * listToString(l, ";", Quote.SINGLE) will be "'Tom';'Jerry'"
+	 * 
+	 * null list returns null;
+	 * empty list returns empty string "";
+	 * null separator/quote will be taken as no separator/quote
+	 * 
+	 * </pre> 
+	 */
+	public static String listToString(List<? extends Object> l, String separator, Quote quote) {
+		
+	    if(l == null) {
 			return null;
 		}
-		
-		if(separator == null) {
-			separator = EMPTY;
-		}
+	    
+	    if(l.isEmpty()) {
+	        return EMPTY;
+	    }
+
+		separator = safeStr(separator);
 		if(quote == null) {
-			quote = EMPTY;
+		    quote = Quote.EMPTY;
 		}
 		
 		StringBuilder result = new StringBuilder(EMPTY);
-		for (String s : l) {
-			result.append(quote).append(s).append(quote).append(separator);
+		for (Object o : l) {
+			result.append(quote.begin()).append(o.toString()).append(quote.end()).append(separator);
 		}
 
 		return StringUtils.removeEnd(result.toString(), separator);
 		
+	}
+	
+	/**
+	 * If str is null, return empty string "", else, return str.
+	 */
+	public static String safeStr(String str) {
+	    
+	    if(str == null) {
+	        return EMPTY;
+	    }else {
+	        return str;
+	    }
+	    
 	}
 	/**
 	 * <pre>

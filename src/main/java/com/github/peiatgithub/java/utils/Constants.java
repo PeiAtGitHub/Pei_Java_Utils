@@ -63,6 +63,7 @@ public class Constants {
     public final static String LAST_NAME = "LastName";
     
 	public final static String HELLO_WORLD = "HELLO WORLD";
+	public final static String WHATEVER = "WHATEVER";
 
 	public final static String ARGUMENT_MUST_NOT_BE_NULL= "Argument must not be null.";
 	public final static String ARGUMENT_MUST_NOT_BE_NULL_OR_EMPTY = "Argument must not be null or empty.";
