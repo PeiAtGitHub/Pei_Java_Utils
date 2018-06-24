@@ -15,13 +15,6 @@ public class XpathBuilder {
     private StringBuilder xpath = new StringBuilder(EMPTY);
 
     /**
-     * @return a new instance of the builder
-     */
-    public static XpathBuilder newBuilder() {
-        return new XpathBuilder();
-    }
-
-    /**
      * Append text to the xpath.
      */
     public XpathBuilder append(String text) {

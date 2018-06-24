@@ -1,4 +1,4 @@
-package com.github.peiatgithub.java.utils.database;
+package com.github.peiatgithub.java.utils.database.sql.constants;
 
 /**
  * 

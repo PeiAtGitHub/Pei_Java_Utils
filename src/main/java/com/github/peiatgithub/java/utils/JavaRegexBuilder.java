@@ -14,12 +14,6 @@ public class JavaRegexBuilder {
 
 	private StringBuilder regex = new StringBuilder(EMPTY);
 
-	/**
-	 * @return a new instance of the builder
-	 */
-	public static JavaRegexBuilder newBuilder() {
-		return new JavaRegexBuilder();
-	}
 
 	/**
 	 * <pre>
