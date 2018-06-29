@@ -335,7 +335,7 @@ public class Utils {
 	 * 
 	 * </pre> 
 	 */
-	public static String listToString(List<? extends Object> l, String separator, Quote quote) {
+	public static String listToString(List<? extends Object> l, String separator, Encloser quote) {
 		
 	    if(l == null) {
 			return null;
@@ -347,7 +347,7 @@ public class Utils {
 
 		separator = safeStr(separator);
 		if(quote == null) {
-		    quote = Quote.EMPTY;
+		    quote = Encloser.EMPTY;
 		}
 		
 		StringBuilder result = new StringBuilder(EMPTY);
@@ -358,6 +358,22 @@ public class Utils {
 		return StringUtils.removeEnd(result.toString(), separator);
 		
 	}
+	
+	/**
+	 * Enclose the specified string.
+	 * E.g.
+	 * encloseString("Tom", Encloser.PARENTHESES) outputs "(Tom)" 
+	 */
+	public static String encloseString(String str, Encloser quote) {
+	    if(str == null) {
+	        return null;
+	    } else if (quote == null) {
+	        return str;
+	    } else { 
+	        return quote.begin() + str + quote.end();
+	    }
+	}
+
 	
 	/**
 	 * If str is null, return empty string "", else, return str.

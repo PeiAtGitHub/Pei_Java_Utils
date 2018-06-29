@@ -1,19 +1,17 @@
 package com.github.peiatgithub.java.utils.tests;
 
 import static org.junit.Assert.*;
-
 import java.util.Collections;
-import java.util.logging.Logger;
-
 import static org.hamcrest.CoreMatchers.*;
 import static org.assertj.core.api.Assertions.*;
 
 import static com.github.peiatgithub.java.utils.Utils.*;
 import static com.github.peiatgithub.java.utils.Constants.*;
 import com.github.peiatgithub.java.utils.NanoStopWatch;
-import com.github.peiatgithub.java.utils.Quote;
+import com.github.peiatgithub.java.utils.Encloser;
 import com.github.peiatgithub.java.utils.RunFlag;
 
+import org.hamcrest.core.IsNull;
 import org.junit.Test;
 
 /**
@@ -23,7 +21,7 @@ import org.junit.Test;
  *
  */
 public class UtilsTests {
-    
+
     @Test
     public void testStrAndStrln() throws Exception {
 
@@ -34,7 +32,7 @@ public class UtilsTests {
         assertThat(strln(theFormat, "PEI", 100), is(output + System.lineSeparator()));
 
         theFormat = "I can lend you my {}, since your {} is in workshop";
-        
+
         assertThat(str(theFormat, "CAR"), is("I can lend you my CAR, since your {} is in workshop"));
         assertThat(str(theFormat, "CAR", "BIKE"), is("I can lend you my CAR, since your BIKE is in workshop"));
         assertThat(str(theFormat, "CAR", "BIKE", "BOAT"), is("I can lend you my CAR, since your BIKE is in workshop"));
@@ -45,28 +43,37 @@ public class UtilsTests {
         assertThat(str("Hello, { } {}.", "PEI"), is("Hello, { } PEI."));
 
     }
-    
+
     @Test
     public void testSafeStr() throws Exception {
-        
+
         assertThat(safeStr(null), is(EMPTY));
         assertThat(safeStr(STR), is(STR));
-        
+
     }
-    
+
+    @Test
+    public void testQuoteString() throws Exception {
+        assertThat(encloseString(STR, Encloser.BRACKETS), is("[STR]"));
+        assertThat(encloseString(EMPTY, Encloser.BRACKETS), is("[]"));
+        assertThat(encloseString(STR, Encloser.EMPTY), is(STR));
+
+        assertThat(encloseString(null, Encloser.BRACKETS), nullValue());
+        assertThat(encloseString(STR, null), is(STR));
+    }
+
     @Test
     public void testListToString() throws Exception {
-        
-        assertThat(listToString(TEST_LIST_123, COMMA + SPACE, Quote.PARENTHESES), is("(1), (2), (3)"));
-        assertThat(listToString(TEST_LIST_123, null, null), is("123"));
-        
-        assertThat(listToString(TEST_LIST_123, SPACE, Quote.DOUBLE), is("\"1\" \"2\" \"3\""));
 
-        assertThat(listToString(null, WHATEVER, Quote.PARENTHESES), nullValue());
-        assertThat(listToString(Collections.emptyList(), WHATEVER, Quote.PARENTHESES), is(EMPTY));
-        
+        assertThat(listToString(TEST_LIST_123, COMMA + SPACE, Encloser.PARENTHESES), is("(1), (2), (3)"));
+        assertThat(listToString(TEST_LIST_123, null, null), is("123"));
+
+        assertThat(listToString(TEST_LIST_123, SPACE, Encloser.DOUBLE), is("\"1\" \"2\" \"3\""));
+
+        assertThat(listToString(null, WHATEVER, Encloser.PARENTHESES), nullValue());
+        assertThat(listToString(Collections.emptyList(), WHATEVER, Encloser.PARENTHESES), is(EMPTY));
+
     }
-    
 
     @Test
     public void testNumberToReadableString() throws Exception {
@@ -236,6 +243,20 @@ public class UtilsTests {
 
         assertThatThrownBy(() -> isDivisibleBy(10, 0)).isInstanceOf(ArithmeticException.class);
     }
-    
+
+    @Test
+    public void testClearStringBuilder() throws Exception {
+
+        StringBuilder sb = new StringBuilder(STR);
+
+        assertThat(sb).hasSize(3);
+        assertThat(sb.toString()).isEqualTo(STR);
+        clearStringBuilder(sb);
+        assertThat(sb).hasSize(0);
+        assertThat(sb.toString()).isEqualTo(EMPTY);
+        sb.append(STR);
+        assertThat(sb.toString()).isEqualTo(STR);
+
+    }
 
 }

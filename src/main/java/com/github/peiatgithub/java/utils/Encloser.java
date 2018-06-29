@@ -6,7 +6,7 @@ package com.github.peiatgithub.java.utils;
  *
  * @since 5.0
  */
-public enum Quote {
+public enum Encloser {
     
     SINGLE("'", "'"),
     DOUBLE("\"", "\""), 
@@ -46,7 +46,7 @@ public enum Quote {
     private final String end; 
 
 
-    Quote(String begin, String end) {
+    Encloser(String begin, String end) {
         this.begin = begin;
         this.end = end;
     }
