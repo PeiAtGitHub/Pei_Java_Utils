@@ -14,7 +14,7 @@ import lombok.AllArgsConstructor;
  * @since 5.0
  */
 @AllArgsConstructor
-public class ResultProcessor extends SqlBuilderContent{
+public class ResultProcessor {
     
     SqlBuilderContent sbc;
     
@@ -29,6 +29,11 @@ public class ResultProcessor extends SqlBuilderContent{
      */
     public SqlBuilderContent orderBy(String... columns) {
         return orderBy(Order.ASC, columns);
+    }
+    
+    
+    public String build() {
+        return sbc.build();
     }
 
 }
