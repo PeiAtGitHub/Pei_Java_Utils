@@ -11,7 +11,6 @@ import com.github.peiatgithub.java.utils.NanoStopWatch;
 import com.github.peiatgithub.java.utils.Encloser;
 import com.github.peiatgithub.java.utils.RunFlag;
 
-import org.hamcrest.core.IsNull;
 import org.junit.Test;
 
 /**

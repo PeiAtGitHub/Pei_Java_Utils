@@ -4,11 +4,13 @@ import static com.github.peiatgithub.java.utils.Constants.*;
 import static com.github.peiatgithub.java.utils.Utils.*;
 import static com.github.peiatgithub.java.utils.database.sql.constants.SqlFamily.ORACLE;
 
+import com.github.peiatgithub.java.utils.Encloser;
 import com.github.peiatgithub.java.utils.database.sql.constants.SqlFamily;
 
 import static com.github.peiatgithub.java.utils.Encloser.PARENTHESES;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -17,7 +19,8 @@ import lombok.Setter;
  *
  * @since 5.0
  */
-public class ConditionBuilder {
+@NoArgsConstructor
+public class SqlCondition {
 
     private StringBuilder condition = new StringBuilder();
 
@@ -35,71 +38,78 @@ public class ConditionBuilder {
     @Setter
     private boolean isComposite = false;
 
-    public ConditionBuilder(String operand1) {
-        this.condition.append(operand1);
+    public SqlCondition(String operand1) {
+        this.condition.append(operand1).append(SPACE);
     }
 
-    public ConditionBuilder equal(String operand2) {
-        return append(str(" = '{}'", operand2));
+    public SqlCondition equals(String operand2) {
+        return append(str("= '{}'", operand2));
     }
 
-    public ConditionBuilder equal(Number operand2) {
-        return append(str(" = {}", operand2));
+    public SqlCondition equal(Number operand2) {
+        return append(str("= {}", operand2));
     }
 
-    public ConditionBuilder notEqual(String operand2) {
-        return append(str(" <> '{}'", operand2));
+    public SqlCondition notEqual(String operand2) {
+        return append(str("<> '{}'", operand2));
     }
 
-    public ConditionBuilder notEqual(Number operand2) {
-        return append(str(" <> {}", operand2));
+    public SqlCondition notEqual(Number operand2) {
+        return append(str("<> {}", operand2));
     }
 
-    public ConditionBuilder greaterThan(String operand2) {
-        return append(str(" > '{}'", operand2));
+    public SqlCondition greaterThan(String operand2) {
+        return append(str("> '{}'", operand2));
     }
 
-    public ConditionBuilder greaterThan(Number operand2) {
-        return append(" > " + operand2);
+    public SqlCondition greaterThan(Number operand2) {
+        return append("> " + operand2);
     }
 
-    public ConditionBuilder lessThan(String operand2) {
-        return append(str(" < '{}'", operand2));
+    public SqlCondition lessThan(String operand2) {
+        return append(str("< '{}'", operand2));
     }
 
-    public ConditionBuilder lessThan(Number operand2) {
-        return append(" < " + operand2);
+    public SqlCondition lessThan(Number operand2) {
+        return append("< " + operand2);
     }
 
-    public ConditionBuilder greaterThanOrEqual(String operand2) {
-        return append(str(" >= '{}'", operand2));
+    public SqlCondition greaterThanOrEqual(String operand2) {
+        return append(str(">= '{}'", operand2));
     }
 
-    public ConditionBuilder greaterThanOrEqual(Number operand2) {
-        return append(" >= " + operand2);
+    public SqlCondition greaterThanOrEqual(Number operand2) {
+        return append(">= " + operand2);
     }
 
-    public ConditionBuilder lessThanOrEqual(String operand2) {
-        return append(str(" <= '{}'", operand2));
+    public SqlCondition lessThanOrEqual(String operand2) {
+        return append(str("<= '{}'", operand2));
     }
 
-    public ConditionBuilder lessThanOrEqualTo(Number operand2) {
-        return append(" <= " + operand2);
+    public SqlCondition lessThanOrEqualTo(Number operand2) {
+        return append("<= " + operand2);
     }
 
-    public ConditionBuilder between(String from, String to) {
-        return append(str(" BETWEEN {} AND {} ", from, to));
+    public SqlCondition between(String from, String to) {
+        return append(str("BETWEEN {} AND {} ", from, to));
+    }
+    public SqlCondition between(Number from, Number to) {
+        return append(str("BETWEEN {} AND {} ", from, to));
     }
 
-    public ConditionBuilder like(ValuePatternBuilder vpb) {
-        return append(" LIKE " + vpb.build());
+    public SqlCondition like(String pattern) {
+        return append(str("LIKE '{}'", pattern));
     }
 
-    public ConditionBuilder inValues(String... values) {
-        return append(str("IN ({}) ", join(values, COMMA)));
+    public SqlCondition inValues(String... values) {
+        return append(str("IN ({}) ", arrayToString(values, ", ", Encloser.SINGLE)));
     }
 
-    public ConditionBuilder inSelectResults(String selectStatement) {
+    public SqlCondition notInValues(String... values) {
+        return append(str("NOT IN ({}) ", arrayToString(values, ", ", Encloser.SINGLE)));
+    }
+
+    public SqlCondition inSelectResults(String selectStatement) {
         return append(str("IN ({}) ", selectStatement));
     }
 
@@ -107,7 +117,7 @@ public class ConditionBuilder {
      * 
      */
     
-    public ConditionBuilder and(ConditionBuilder condition2) {
+    public SqlCondition and(SqlCondition condition2) {
         if (isComposite()) {
             encloseWithParentheses(this.condition);
         }
@@ -118,7 +128,7 @@ public class ConditionBuilder {
         return this;
     }
 
-    public ConditionBuilder or(ConditionBuilder condition2) {
+    public SqlCondition or(SqlCondition condition2) {
 
         if (isComposite()) {
             encloseWithParentheses(this.condition);
@@ -131,8 +141,8 @@ public class ConditionBuilder {
 
     }
 
-    public ConditionBuilder not(ConditionBuilder condition) {
-        append(str(" NOT {}", getConditionString(condition)));
+    public SqlCondition not(SqlCondition condition) {
+        append(str("NOT {}", getConditionString(condition)));
 
         setComposite(true);
 
@@ -140,12 +150,12 @@ public class ConditionBuilder {
 
     }
 
-    public ConditionBuilder isNull() {
-        return append(str(" IS NULL"));
+    public SqlCondition isNull() {
+        return append(str("IS NULL"));
     }
 
-    public ConditionBuilder isNotNull() {
-        return append(str(" IS NOT NULL"));
+    public SqlCondition isNotNull() {
+        return append(str("IS NOT NULL"));
     }
 
     //
@@ -164,7 +174,7 @@ public class ConditionBuilder {
      * If the condition is composite, the result String will be enclosed with
      * parentheses
      */
-    private String getConditionString(ConditionBuilder condition) {
+    private String getConditionString(SqlCondition condition) {
 
         if (condition.isComposite()) {
             return encloseString(condition.build(), PARENTHESES);
@@ -178,7 +188,7 @@ public class ConditionBuilder {
     /**
      * Append text to the condition.
      */
-    private ConditionBuilder append(String text) {
+    private SqlCondition append(String text) {
         this.condition.append(text);
         return this;
     }
@@ -188,13 +198,12 @@ public class ConditionBuilder {
      * @author pei
      * @since 5.0
      */
+    @NoArgsConstructor
     private class ValuePatternBuilder {
 
         private SqlFamily sqlFamily = ORACLE; // default
         private StringBuilder pattern = new StringBuilder(EMPTY);
 
-        public ValuePatternBuilder() {
-        }
         public ValuePatternBuilder(SqlFamily sqlFamily) {
             this.sqlFamily = sqlFamily;
         }

@@ -20,8 +20,8 @@ public class SqlBuilderContent {
 
     private StringBuilder sqlSb;
     private SqlFamily sqlFamily;
-    private ConditionBuilder selectConditionBuilder;
-    private ConditionBuilder deleteConditionBuilder;
+    private SqlCondition selectConditionBuilder;
+    private SqlCondition deleteConditionBuilder;
     private Integer maxNumOfRows;
 
     public SqlBuilderContent() {
@@ -40,10 +40,10 @@ public class SqlBuilderContent {
             if (sqlFamily != null) {
                 switch (sqlFamily) {
                 case MY_SQL:
-                    result += " LIMITED " + maxNumOfRows;
+                    result += "LIMIT " + maxNumOfRows;
                     break;
                 case ORACLE:
-                    selectConditionBuilder.and(new ConditionBuilder("ROWNUM").lessThanOrEqualTo(maxNumOfRows));
+                    selectConditionBuilder.and(new SqlCondition("ROWNUM").lessThanOrEqualTo(maxNumOfRows));
                     break;
                 case SQL_SERVER:
                 case MS_ACCESS:

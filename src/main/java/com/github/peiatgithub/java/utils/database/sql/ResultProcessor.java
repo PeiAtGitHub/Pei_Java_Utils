@@ -30,7 +30,7 @@ public class ResultProcessor {
     public SqlBuilderContent orderBy(String... columns) {
         return orderBy(Order.ASC, columns);
     }
-    
+  
     
     public String build() {
         return sbc.build();

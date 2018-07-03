@@ -335,7 +335,7 @@ public class Utils {
 	 * 
 	 * </pre> 
 	 */
-	public static String listToString(List<? extends Object> l, String separator, Encloser quote) {
+	public static String listToString(List<? extends Object> l, String separator, Encloser encloser) {
 		
 	    if(l == null) {
 			return null;
@@ -346,17 +346,44 @@ public class Utils {
 	    }
 
 		separator = safeStr(separator);
-		if(quote == null) {
-		    quote = Encloser.EMPTY;
+		if(encloser == null) {
+		    encloser = Encloser.EMPTY;
 		}
 		
 		StringBuilder result = new StringBuilder(EMPTY);
 		for (Object o : l) {
-			result.append(quote.begin()).append(o.toString()).append(quote.end()).append(separator);
+			result.append(encloser.begin()).append(o.toString()).append(encloser.end()).append(separator);
 		}
 
 		return StringUtils.removeEnd(result.toString(), separator);
 		
+	}
+
+	/**
+	 * Similar to {@link #listToString(List, String, Encloser)}.
+	 */
+	public static String arrayToString(String[] arr, String separator, Encloser encloser) {
+	    
+	    if(arr == null) {
+	        return null;
+	    }
+	    
+	    if(arr.length == 0) {
+	        return EMPTY;
+	    }
+	    
+	    separator = safeStr(separator);
+	    if(encloser == null) {
+	        encloser = Encloser.EMPTY;
+	    }
+	    
+	    StringBuilder result = new StringBuilder(EMPTY);
+	    for (String s : arr) {
+	        result.append(encloser.begin()).append(s.toString()).append(encloser.end()).append(separator);
+	    }
+	    
+	    return StringUtils.removeEnd(result.toString(), separator);
+	    
 	}
 	
 	/**
