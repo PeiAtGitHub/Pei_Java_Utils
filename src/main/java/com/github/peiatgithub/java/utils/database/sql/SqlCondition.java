@@ -1,13 +1,12 @@
 package com.github.peiatgithub.java.utils.database.sql;
 
-import static com.github.peiatgithub.java.utils.Constants.*;
-import static com.github.peiatgithub.java.utils.Utils.*;
-import static com.github.peiatgithub.java.utils.database.sql.constants.SqlFamily.ORACLE;
+import static com.github.peiatgithub.java.utils.Constants.SPACE;
+import static com.github.peiatgithub.java.utils.Encloser.PARENTHESES;
+import static com.github.peiatgithub.java.utils.Utils.arrayToString;
+import static com.github.peiatgithub.java.utils.Utils.encloseString;
+import static com.github.peiatgithub.java.utils.Utils.str;
 
 import com.github.peiatgithub.java.utils.Encloser;
-import com.github.peiatgithub.java.utils.database.sql.constants.SqlFamily;
-
-import static com.github.peiatgithub.java.utils.Encloser.PARENTHESES;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,7 +19,9 @@ import lombok.Setter;
  * @since 5.0
  */
 @NoArgsConstructor
-public class SqlCondition {
+@Setter
+@Getter
+public class SqlCondition extends LastStep {
 
     private StringBuilder condition = new StringBuilder();
 
@@ -42,8 +43,17 @@ public class SqlCondition {
         this.condition.append(operand1).append(SPACE);
     }
 
+    public SqlCondition(String operand1, SqlBuilderContent sbc) {
+        this.condition.append(operand1).append(SPACE);
+        super.setSbc(sbc);
+    }
+
     public SqlCondition equals(String operand2) {
-        return append(str("= '{}'", operand2));
+        if (operand2.contains(".")) {
+            return append(str("= {}", operand2));
+        } else {
+            return append(str("= '{}'", operand2));
+        }
     }
 
     public SqlCondition equal(Number operand2) {
@@ -91,10 +101,11 @@ public class SqlCondition {
     }
 
     public SqlCondition between(String from, String to) {
-        return append(str("BETWEEN {} AND {} ", from, to));
+        return append(str("BETWEEN {} AND {}", from, to));
     }
+
     public SqlCondition between(Number from, Number to) {
-        return append(str("BETWEEN {} AND {} ", from, to));
+        return append(str("BETWEEN {} AND {}", from, to));
     }
 
     public SqlCondition like(String pattern) {
@@ -102,22 +113,22 @@ public class SqlCondition {
     }
 
     public SqlCondition inValues(String... values) {
-        return append(str("IN ({}) ", arrayToString(values, ", ", Encloser.SINGLE)));
+        return append(str("IN ({})", arrayToString(values, ", ", Encloser.SINGLE)));
     }
 
     public SqlCondition notInValues(String... values) {
-        return append(str("NOT IN ({}) ", arrayToString(values, ", ", Encloser.SINGLE)));
+        return append(str("NOT IN ({})", arrayToString(values, ", ", Encloser.SINGLE)));
     }
 
     public SqlCondition inSelectResults(String selectStatement) {
-        return append(str("IN ({}) ", selectStatement));
+        return append(str("IN ({})", selectStatement));
     }
 
     /*
      * 
      */
-    
     public SqlCondition and(SqlCondition condition2) {
+
         if (isComposite()) {
             encloseWithParentheses(this.condition);
         }
@@ -158,8 +169,12 @@ public class SqlCondition {
         return append(str("IS NOT NULL"));
     }
 
+    public SqlCondition exist(String sql) {
+        return append("EXISTS " + encloseString(sql, Encloser.PARENTHESES));
+    }
+
     //
-    public String build() {
+    public String buildConditionString() {
         return this.condition.toString();
     }
 
@@ -177,13 +192,12 @@ public class SqlCondition {
     private String getConditionString(SqlCondition condition) {
 
         if (condition.isComposite()) {
-            return encloseString(condition.build(), PARENTHESES);
+            return encloseString(condition.buildConditionString(), PARENTHESES);
         } else {
-            return condition.build();
+            return condition.buildConditionString();
         }
 
     }
-    
 
     /**
      * Append text to the condition.
@@ -192,73 +206,5 @@ public class SqlCondition {
         this.condition.append(text);
         return this;
     }
-
-    /**
-     * 
-     * @author pei
-     * @since 5.0
-     */
-    @NoArgsConstructor
-    private class ValuePatternBuilder {
-
-        private SqlFamily sqlFamily = ORACLE; // default
-        private StringBuilder pattern = new StringBuilder(EMPTY);
-
-        public ValuePatternBuilder(SqlFamily sqlFamily) {
-            this.sqlFamily = sqlFamily;
-        }
-
-        /**
-         * Append text to the value pattern.
-         */
-        public ValuePatternBuilder text(String text) {
-            this.pattern.append(text);
-            return this;
-        }
-
-        /**
-         * <pre>
-         * Set the SQL Family.
-         * The wild-cards may depend on the SQL family.
-         * </pre> 
-         */
-        public ValuePatternBuilder sqlFamily(SqlFamily sf) {
-            this.sqlFamily = sf;
-            return this;
-        }
-        
-        /**
-         * 1 any char
-         */
-        public ValuePatternBuilder oneAnyChar() {
-            switch (sqlFamily) {
-            case MS_ACCESS:
-            case SQL_SERVER:
-                return text(QUESTION_MARK);
-            case ORACLE:
-            case MY_SQL:
-                return text(UNDER_SCORE);
-            default:
-                throw new RuntimeException(UNSUPPORTED_CASE);
-            }
-        }
-
-        /**
-         *  0, 1, or multiple chars
-         */
-        public ValuePatternBuilder anyTimesAnyChar() {
-            return text(PERCENTAGE);
-        }
-        
-
-        /**
-         * returns the build result String 
-         */
-        public String build() {
-            return this.pattern.toString();
-        }
-        
-    }
-
 
 }

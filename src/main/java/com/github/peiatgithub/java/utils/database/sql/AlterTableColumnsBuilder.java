@@ -11,9 +11,11 @@ import lombok.AllArgsConstructor;
  * @since 5.0
  */
 @AllArgsConstructor
-public class AlterTableColumnsBuilder {
+public class AlterTableColumnsBuilder extends LastStep{
 
-    SqlBuilderContent sbc;
+    public AlterTableColumnsBuilder(SqlBuilderContent sbc) {
+        super.setSbc(sbc);
+    }
 
     public SqlBuilderContent addColumn(String column, DataType dataType) {
         sbc.getSqlSb().append("ADD ").append(column + SPACE).append(dataType.text());
@@ -25,7 +27,7 @@ public class AlterTableColumnsBuilder {
         return sbc;
     }
 
-    public SqlBuilderContent dropColumn(String column, DataType dataType) {
+    public SqlBuilderContent dropColumn(String column) {
         sbc.getSqlSb().append("DROP COLUMN ").append(column);
         return sbc;
     }

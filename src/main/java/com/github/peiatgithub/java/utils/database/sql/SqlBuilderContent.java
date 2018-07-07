@@ -6,28 +6,29 @@ import org.apache.commons.lang3.StringUtils;
 import com.github.peiatgithub.java.utils.database.sql.constants.SqlFamily;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.AccessLevel;
 
 /**
- * 
+ * <pre>
+ * This class holds the content of the SQL String under construction.
+ * And the outcome SQL String is created by calling build() method of this class.
+ * </pre>
  * @author pei
  * @since 5.0
  */
 @Getter(AccessLevel.PACKAGE)
 @Setter(AccessLevel.PACKAGE)
+@NoArgsConstructor
 public class SqlBuilderContent {
 
-    private StringBuilder sqlSb;
-    private SqlFamily sqlFamily;
-    private SqlCondition selectConditionBuilder;
-    private SqlCondition deleteConditionBuilder;
-    private Integer maxNumOfRows;
+    private StringBuilder sqlSb = new StringBuilder();
+    private SqlFamily sqlFamily = SqlFamily.MY_SQL; // default
+    private SqlCondition selectCondition = null;
+    private SqlCondition deleteCondition = null;
+    private Integer maxNumOfRows = null;
 
-    public SqlBuilderContent() {
-        setSqlSb(new StringBuilder());
-        setSqlFamily(SqlFamily.MY_SQL); // default
-    }
 
     /**
      * Build the result sql String
@@ -40,10 +41,10 @@ public class SqlBuilderContent {
             if (sqlFamily != null) {
                 switch (sqlFamily) {
                 case MY_SQL:
-                    result += "LIMIT " + maxNumOfRows;
+                    result += " LIMIT " + maxNumOfRows;
                     break;
                 case ORACLE:
-                    selectConditionBuilder.and(new SqlCondition("ROWNUM").lessThanOrEqualTo(maxNumOfRows));
+                    selectCondition.and(new SqlCondition("ROWNUM").lessThanOrEqualTo(maxNumOfRows));
                     break;
                 case SQL_SERVER:
                 case MS_ACCESS:
@@ -55,10 +56,10 @@ public class SqlBuilderContent {
             }
         }
 
-        if (selectConditionBuilder != null) {
-            result = result.replace("WHERE", "WHERE " + selectConditionBuilder.build() + SPACE);
-        } else if (deleteConditionBuilder != null) {
-            result = result.replace("WHERE", "WHERE " + deleteConditionBuilder.build() + SPACE);
+        if (selectCondition != null) {
+            result = result.replaceFirst("WHERE", "WHERE " + selectCondition.buildConditionString());
+        } else if (deleteCondition != null) {
+            result = result.replaceFirst("WHERE", "WHERE " + deleteCondition.buildConditionString());
         }
 
         return result.trim();

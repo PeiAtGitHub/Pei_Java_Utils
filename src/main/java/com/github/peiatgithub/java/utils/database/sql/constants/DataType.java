@@ -1,6 +1,7 @@
 package com.github.peiatgithub.java.utils.database.sql.constants;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import org.apache.commons.collections4.CollectionUtils;
 
@@ -24,10 +25,66 @@ public class DataType {
     private final ArrayList<Number> args = new ArrayList<>();
     private final ArrayList<String> enumValues = new ArrayList<>(); // only for data type ENUM
 
-    DataType(Type type) {
+    
+    private DataType(Type type, Number...args) {
         this.type = type;
+        Collections.addAll(this.args, args);
     }
 
+    /**
+     * Only for Type.ENUM
+     */
+    private DataType(String...enumValues) {
+        this.type = Type.ENUM;
+        Collections.addAll(this.enumValues, enumValues);
+    }
+    
+    /*
+     * 
+     */
+    public static DataType ofChar(Number...args) {
+        return new DataType(Type.CHAR, args);
+    }
+    public static DataType ofVarChar(Number...args) {
+        return new DataType(Type.VARCHAR, args);
+    }
+    public static DataType ofInt(Number...args) {
+        return new DataType(Type.INT, args);
+    }
+    public static DataType ofFloat(Number...args) {
+        return new DataType(Type.FLOAT, args);
+    }
+    public static DataType ofDouble(Number...args) {
+        return new DataType(Type.DOUBLE, args);
+    }
+    public static DataType ofDecimal(Number...args) {
+        return new DataType(Type.DECIMAL, args);
+    }
+    public static DataType ofBlob(Number...args) {
+        return new DataType(Type.BLOB, args);
+    }
+    public static DataType ofDate(Number...args) {
+        return new DataType(Type.DATE, args);
+    }
+    public static DataType ofDateTime(Number...args) {
+        return new DataType(Type.DATETIME, args);
+    }
+    public static DataType ofTimestamp(Number...args) {
+        return new DataType(Type.TIMESTAMP, args);
+    }
+    public static DataType ofTime(Number...args) {
+        return new DataType(Type.TIME, args);
+    }
+    public static DataType ofYear(Number...args) {
+        return new DataType(Type.YEAR, args);
+    }
+    public static DataType ofEnum(String...enumValues) {
+        return new DataType(enumValues);
+    }
+    
+    /*
+     * 
+     */
     public String text() {
 
         if (this.type == null) {
@@ -67,7 +124,9 @@ public class DataType {
         ENUM("ENUM"), // e.g. ENUM('X','Y','Z')
         DATE("DATE()"), 
         DATETIME("DATETIME()"), 
-        TIMESTAMP("TIMESTAMP()");
+        TIMESTAMP("TIMESTAMP()"),
+        TIME("TIME()"),
+        YEAR("YEAR()");
         // @formatter:on
 
         private String text;
