@@ -1,6 +1,5 @@
 package com.github.peiatgithub.java.utils;
 
-import static com.github.peiatgithub.java.utils.Constants.*;
 import static com.github.peiatgithub.java.utils.Utils.*;
 
 /**

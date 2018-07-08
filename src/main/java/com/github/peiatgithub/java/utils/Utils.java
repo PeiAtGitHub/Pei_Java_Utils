@@ -13,7 +13,6 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.assertj.core.util.Arrays;
 
 import com.github.peiatgithub.java.utils.function.NonArgFunction;
 
@@ -301,7 +300,7 @@ public class Utils {
      * </pre>
      */
     public static String join(String[] arr, String separator) {
-        if (Arrays.isNullOrEmpty(arr)) {
+        if (ArrayUtils.isEmpty(arr)) {
             return EMPTY;
         }
         if (arr.length == 1) {
