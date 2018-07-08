@@ -27,10 +27,10 @@ public class SqlCondition extends LastStep {
 
     /**
      * <pre>
-     * composite is false if this is a single condition, 
+     * this flag is false if this is a single condition, 
      * e.g. CustomerName = "Tom"
      * 
-     * composite is true if this is a combined condition, 
+     * this flag is true if this is a combined condition, 
      * e.g. CustomerName = "Tom" OR CustomerName = "Jerry"
      * e.g. NOT CustomerName = "Tom"
      * </pre>
@@ -46,7 +46,7 @@ public class SqlCondition extends LastStep {
         super.setSbc(sbc);
     }
 
-    public SqlCondition equals(String operand2) {
+    public SqlCondition equalTo(String operand2) {
         if (operand2.contains(".")) {
             return append(str("= {}", operand2));
         } else {
@@ -54,15 +54,15 @@ public class SqlCondition extends LastStep {
         }
     }
 
-    public SqlCondition equal(Number operand2) {
+    public SqlCondition equalTo(Number operand2) {
         return append(str("= {}", operand2));
     }
 
-    public SqlCondition notEqual(String operand2) {
+    public SqlCondition notEqualTo(String operand2) {
         return append(str("<> '{}'", operand2));
     }
 
-    public SqlCondition notEqual(Number operand2) {
+    public SqlCondition notEqualTo(Number operand2) {
         return append(str("<> {}", operand2));
     }
 
@@ -82,15 +82,15 @@ public class SqlCondition extends LastStep {
         return append("< " + operand2);
     }
 
-    public SqlCondition greaterThanOrEqual(String operand2) {
+    public SqlCondition greaterThanOrEqualTo(String operand2) {
         return append(str(">= '{}'", operand2));
     }
 
-    public SqlCondition greaterThanOrEqual(Number operand2) {
+    public SqlCondition greaterThanOrEqualTo(Number operand2) {
         return append(">= " + operand2);
     }
 
-    public SqlCondition lessThanOrEqual(String operand2) {
+    public SqlCondition lessThanOrEqualTo(String operand2) {
         return append(str("<= '{}'", operand2));
     }
 
@@ -127,7 +127,6 @@ public class SqlCondition extends LastStep {
      */
 
     public SqlCondition and(SqlCondition condition2) {
-
         if (isComposite()) {
             encloseWithParentheses(this.condition);
         }
@@ -137,7 +136,6 @@ public class SqlCondition extends LastStep {
     }
 
     public SqlCondition or(SqlCondition condition2) {
-
         if (isComposite()) {
             encloseWithParentheses(this.condition);
         }
@@ -151,7 +149,6 @@ public class SqlCondition extends LastStep {
         append(str("NOT {}", getConditionString(condition)));
         setComposite(true);
         return this;
-
     }
 
     public SqlCondition isNull() {
@@ -192,13 +189,11 @@ public class SqlCondition extends LastStep {
      * the result String will be enclosed with parentheses
      */
     private String getConditionString(SqlCondition condition) {
-
         if (condition.isComposite()) {
             return encloseString(condition.buildConditionString(), PARENTHESES);
         } else {
             return condition.buildConditionString();
         }
-
     }
 
     private SqlCondition append(String text) {

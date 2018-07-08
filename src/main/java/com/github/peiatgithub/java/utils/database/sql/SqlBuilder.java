@@ -39,8 +39,9 @@ public class SqlBuilder {
 
     /**
      * <pre>
-     * Set the SQL family to one of the ENUMs of SqlFamily.
+     * Set the SQL family to one of the SqlFamily ENUM.
      * The default is "MY_SQL".
+     * Some SQL syntax depends on the SQL family.
      * </pre>
      */
     public SqlBuilder sqlFamily(SqlFamily sqlFamily) {
@@ -63,7 +64,6 @@ public class SqlBuilder {
         } else {
             sbc.getSqlSb().append("SELECT ").append(join(columns, ", ")).append(SPACE);
         }
-
         return new FromBuilder(sbc);
     }
 
@@ -99,10 +99,7 @@ public class SqlBuilder {
     }
 
     /**
-     * SELECT with limited number of result
-     * 
-     * @param maxRowNumber
-     *            the max number of rows in the query result
+     * SELECT and limiting the number of query result
      */
     public FromBuilder select(int maxRowNumber, String... columns) {
         select(columns);
@@ -137,14 +134,10 @@ public class SqlBuilder {
      * INSERT INTO ...
      */
     public SqlBuilderContent insertInto(String table, Map<String, String> columnsValues) {
-
         Pair<List<String>, List<String>> pcv = mapToKvLists(columnsValues);
-
         sbc.getSqlSb().append(str("INSERT INTO {} ({}) VALUES ({})", table, listToString(pcv.getLeft(), ", ", null),
                 listToString(pcv.getRight(), ", ", Encloser.SINGLE)));
-
         return sbc;
-
     }
 
     /**
@@ -152,14 +145,12 @@ public class SqlBuilder {
      */
     public SqlBuilderContent updateTable(String table, Map<String, String> columnsValues,
             SqlCondition conditionBuilder) {
-
         StringBuilder tmp = new StringBuilder();
         for (String column : columnsValues.keySet()) {
             tmp.append(str("{} = '{}', ", column, columnsValues.get(column)));
         }
         sbc.getSqlSb().append(str("UPDATE {} SET {} WHERE {}", table, StringUtils.removeEnd(tmp.toString(), ", "),
                 conditionBuilder.buildConditionString()));
-
         return sbc;
     }
 
@@ -167,12 +158,12 @@ public class SqlBuilder {
      * DELETE FROM ...
      */
     public WhereBuilder deleteRowsFrom(String table) {
-        sbc.getSqlSb().append("DELETE FROM ").append(table + SPACE);
+        sbc.getSqlSb().append("DELETE FROM " + table + SPACE);
         return new WhereBuilder(sbc);
     }
 
     /**
-     * set the max number of rows in the query result
+     * Set the max number of rows in the query result
      */
     public SqlBuilder limitOutputRows(int maxNumOfRows) {
         sbc.setMaxNumOfRows(maxNumOfRows);
@@ -183,34 +174,30 @@ public class SqlBuilder {
      * <pre>
      * CREATE TABLE ...
      * Constraints can be defined both inside column instances
-     * and separately AFTER defining columns,
+     * and separately after defining columns,
      * it's up to the users to avoid duplicates.
      * </pre>
      */
     public SqlBuilderContent createTable(String table, ArrayList<TableColumn> columns,
             StandAloneConstraint... constraints) {
-
         sbc.getSqlSb().append("CREATE TABLE ").append(table).append(SPACE);
-
         String allColumnStr = EMPTY;
+        final String separator = ", ";
         if (sbc.getSqlFamily().equals(SqlFamily.MY_SQL)) {
             for (TableColumn clmn : columns) {
                 allColumnStr += clmn.getName() + SPACE + clmn.getDataType().text();
-                ColumnConstraint[] cntrs = clmn.getConstraints();
-                if (ArrayUtils.isNotEmpty(cntrs)) {
-                    for (ColumnConstraint c : cntrs) {
-                        String type = c.getType();
-                        if (type.equals(Constraints.NOT_NULL) || type.equals(Constraints.DEFAULT)) {
+                if (ArrayUtils.isNotEmpty(clmn.getConstraints())) {
+                    for (ColumnConstraint c : clmn.getConstraints()) {
+                        if (c.getType().equals(Constraints.NOT_NULL) || c.getType().equals(Constraints.DEFAULT)) {
                             allColumnStr += SPACE + c.getText();
                         }
                     }
                 }
-                allColumnStr += ", ";
+                allColumnStr += separator;
             }
             for (TableColumn clmn : columns) {
-                ColumnConstraint[] cntrs = clmn.getConstraints();
-                if (ArrayUtils.isNotEmpty(cntrs)) {
-                    for (ColumnConstraint c : cntrs) {
+                if (ArrayUtils.isNotEmpty(clmn.getConstraints())) {
+                    for (ColumnConstraint c : clmn.getConstraints()) {
                         String type = c.getType();
                         if (!(type.equals(Constraints.NOT_NULL) || type.equals(Constraints.DEFAULT))) {
                             if (type.equals(Constraints.FOREIGN_KEY)) {
@@ -221,7 +208,7 @@ public class SqlBuilder {
                             } else {
                                 allColumnStr += str("{} ({})", c.getText(), clmn.getName());
                             }
-                            allColumnStr += ", ";
+                            allColumnStr += separator;
                         }
                     }
                 }
@@ -229,13 +216,12 @@ public class SqlBuilder {
         } else {// SQL family not MY_SQL
             for (TableColumn clmn : columns) {
                 allColumnStr += clmn.getName() + SPACE + clmn.getDataType().text();
-                ColumnConstraint[] cntrs = clmn.getConstraints();
-                if (ArrayUtils.isNotEmpty(cntrs)) {
-                    for (ColumnConstraint c : cntrs) {
+                if (ArrayUtils.isNotEmpty(clmn.getConstraints())) {
+                    for (ColumnConstraint c : clmn.getConstraints()) {
                         allColumnStr += SPACE + c.getText();
                     }
                 }
-                allColumnStr += ", ";
+                allColumnStr += separator;
             }
         }
 
@@ -244,10 +230,10 @@ public class SqlBuilder {
          */
         if (ArrayUtils.isNotEmpty(constraints)) {
             for (StandAloneConstraint c : constraints) {
-                allColumnStr += str("CONSTRAINT {} {}", c.getName(), c.getText()) + ", ";
+                allColumnStr += str("CONSTRAINT {} {}", c.getName(), c.getText()) + separator;
             }
         }
-        allColumnStr = encloseString(StringUtils.removeEnd(allColumnStr, ", "), Encloser.PARENTHESES);
+        allColumnStr = encloseString(StringUtils.removeEnd(allColumnStr, separator), Encloser.PARENTHESES);
         sbc.getSqlSb().append(allColumnStr);
 
         return sbc;
@@ -293,12 +279,13 @@ public class SqlBuilder {
     }
 
     /*
-     * TODO: Alias is pretty complicated to handle, 
-     * leave it for the future improvements ...
+     * TODO: 
+     * Alias is pretty complicated to handle, 
+     * leave it for the future releases ...
      */
 
     /**
-     * An object of this class will be returned by SqlBuilder.select* methods.
+     * An object of this class will be returned by SqlBuilder.select*() methods.
      * 
      * @author pei
      * @since 5.0
@@ -312,7 +299,7 @@ public class SqlBuilder {
          * FROM ...
          */
         public WhereBuilder from(String table) {
-            sbc.getSqlSb().append("FROM ").append(table).append(SPACE);
+            sbc.getSqlSb().append("FROM " + table + SPACE);
             return new WhereBuilder(sbc);
         }
 
@@ -320,7 +307,7 @@ public class SqlBuilder {
          * FROM ... joined table on specified column
          */
         public WhereBuilder from(String table1, JoinType join, String table2, String column) {
-            sbc.getSqlSb().append("FROM ").append(str("{} {} {} ", table1, join.text(), table2))
+            sbc.getSqlSb().append("FROM " + str("{} {} {} ", table1, join.text(), table2))
                     .append(str("ON {}.{} = {}.{}", table1, column, table2, column));
             return new WhereBuilder(sbc);
         }
@@ -328,6 +315,11 @@ public class SqlBuilder {
     }
 
     /**
+     * <pre>
+     * An instance of this class is returned by 
+     * FromBuilder.from() methods, and 
+     * SqlBuilder.deleteRowsFrom() method, to specify conditions.
+     * </pre>
      * 
      * @author pei
      * @since 5.0

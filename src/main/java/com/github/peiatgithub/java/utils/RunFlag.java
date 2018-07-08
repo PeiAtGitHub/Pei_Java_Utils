@@ -11,55 +11,54 @@ package com.github.peiatgithub.java.utils;
  * 
  * TODO: The current implementation is very simple and there are a lot to improve.
  *  (Eg. multi-threading issue, API usability issue, etc.)
- *  
  * </pre>
+ * 
  * @author pei
  * @since 1.0
  *
  */
 public class RunFlag {
-	
-	private static int counter = 0;
-	
-	/**
-	 * Put this method call to where you what to see if the code will be reached.
-	 */
-	public static void run() {
-		incrementCounter();
-	}
 
-	/**
-	 * Tells you if RunFlag.run() has been invoked.
-	 */
-	public static boolean hasRun() {
-		return runTimes() > 0;
-	}
+    private static int counter = 0;
 
-	/**
-	 * Returns how many times RunFlag.run() has been invoked.
-	 */
-	public static int runTimes() {
-		return getCounter();
-	}
-	
-	/**
-	 * Reset the flag, then hasRun() will return false.
-	 */
-	public static void reset() {
-		counter = 0;
-	}
+    /**
+     * Put this method call to where you what to see if the code will be reached.
+     */
+    public static void run() {
+        incrementCounter();
+    }
 
+    /**
+     * Tells you if RunFlag.run() has been invoked.
+     */
+    public static boolean hasRun() {
+        return runTimes() > 0;
+    }
 
-	/*
-	 * 
-	 */
-	
-	private static void incrementCounter() {
-		counter++;
-	}
+    /**
+     * Returns how many times RunFlag.run() has been invoked.
+     */
+    public static int runTimes() {
+        return getCounter();
+    }
 
-	private static int getCounter() {
-		return counter;
-	}
-	
+    /**
+     * Reset the flag, then hasRun() will return false.
+     */
+    public static void reset() {
+        counter = 0;
+    }
+
+    /*
+     * 
+     */
+
+    private static void incrementCounter() {
+        counter++;
+    }
+
+    private static int getCounter() {
+        return counter;
+    }
+
 }

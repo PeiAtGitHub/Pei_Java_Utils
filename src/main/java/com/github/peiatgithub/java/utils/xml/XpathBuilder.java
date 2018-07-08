@@ -12,7 +12,7 @@ import static com.github.peiatgithub.java.utils.Utils.*;
  */
 public class XpathBuilder {
 
-    private StringBuilder xpath = new StringBuilder(EMPTY);
+    private StringBuilder xpath = new StringBuilder();
 
     /**
      * Append text to the xpath.

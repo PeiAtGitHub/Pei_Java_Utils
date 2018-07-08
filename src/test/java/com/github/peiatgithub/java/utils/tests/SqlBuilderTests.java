@@ -21,9 +21,7 @@ import com.github.peiatgithub.java.utils.database.sql.constants.DataType;
 import static org.hamcrest.CoreMatchers.is;
 
 /**
- * 
  * @author pei
- *
  */
 public class SqlBuilderTests {
 
@@ -53,12 +51,12 @@ public class SqlBuilderTests {
         assertThat(getSqlBuilder().selectAll().from(CUSTOMERS).where(COUNTRY).notInValues("Germany", "France", "UK")
                 .build(), is("SELECT * FROM Customers WHERE Country NOT IN ('Germany', 'France', 'UK')"));
 
-        assertThat(getSqlBuilder().selectAll(3).from(CUSTOMERS).where(COUNTRY).equals("Germany").build(),
+        assertThat(getSqlBuilder().selectAll(3).from(CUSTOMERS).where(COUNTRY).equalTo("Germany").build(),
                 is("SELECT * FROM Customers WHERE Country = 'Germany' LIMIT 3"));
 
-        assertThat(getSqlBuilder().selectAll().from(CUSTOMERS).where("CustomerID").equal(1).build(),
+        assertThat(getSqlBuilder().selectAll().from(CUSTOMERS).where("CustomerID").equalTo(1).build(),
                 is("SELECT * FROM Customers WHERE CustomerID = 1"));
-        assertThat(getSqlBuilder().selectAll().from(CUSTOMERS).where(COUNTRY).equals("Mexico").build(),
+        assertThat(getSqlBuilder().selectAll().from(CUSTOMERS).where(COUNTRY).equalTo("Mexico").build(),
                 is("SELECT * FROM Customers WHERE Country = 'Mexico'"));
 
         assertThat(getSqlBuilder().selectAll().from(CUSTOMERS).where("CustomerID").between(10, 100).orderBy(COUNTRY)
@@ -78,20 +76,20 @@ public class SqlBuilderTests {
 
         assertThat(getSqlBuilder().select("SupplierName").from("Suppliers").where(new SqlCondition().exist(
                 new SqlBuilder().select("ProductName").from("Products").where("SupplierId")
-                .equals("Suppliers.supplierId").and(new SqlCondition("Price").equal(22)).build())).build(),
+                .equalTo("Suppliers.supplierId").and(new SqlCondition("Price").equalTo(22)).build())).build(),
                 is("SELECT SupplierName FROM Suppliers WHERE EXISTS "
                         + "(SELECT ProductName FROM Products WHERE SupplierId = Suppliers.supplierId AND Price = 22)"));
 
-        assertThat(getSqlBuilder().selectAll().from(CUSTOMERS).where(CITY).equals("Berlin")
-                        .or(new SqlCondition(CITY).equals("Munich")).build(),
+        assertThat(getSqlBuilder().selectAll().from(CUSTOMERS).where(CITY).equalTo("Berlin")
+                        .or(new SqlCondition(CITY).equalTo("Munich")).build(),
                 is("SELECT * FROM Customers WHERE City = 'Berlin' OR City = 'Munich'"));
 
         assertThat(getSqlBuilder().selectAll().from(CUSTOMERS)
-                        .where(new SqlCondition().not(new SqlCondition(COUNTRY).equals("Germany"))).build(),
+                        .where(new SqlCondition().not(new SqlCondition(COUNTRY).equalTo("Germany"))).build(),
                 is("SELECT * FROM Customers WHERE NOT Country = 'Germany'"));
 
-        assertThat(getSqlBuilder().selectAll().from(CUSTOMERS).where(COUNTRY).equals("Germany")
-                .and(new SqlCondition(CITY).equals("Berlin").or(new SqlCondition(CITY)).equals("Munich")).build(),
+        assertThat(getSqlBuilder().selectAll().from(CUSTOMERS).where(COUNTRY).equalTo("Germany")
+                .and(new SqlCondition(CITY).equalTo("Berlin").or(new SqlCondition(CITY)).equalTo("Munich")).build(),
                 is("SELECT * FROM Customers WHERE Country = 'Germany' AND (City = 'Berlin' OR City = 'Munich')"));
 
         assertThat(getSqlBuilder().select("LastName", "FirstName", "Address").from("Persons").where("Address").isNull()
@@ -102,9 +100,9 @@ public class SqlBuilderTests {
                 is("SELECT Orders.OrderID, Customers.CustomerName "
                         + "FROM Orders INNER JOIN Customers ON Orders.CustomerID = Customers.CustomerID"));
 
-        assertThat(getSqlBuilder().select(CITY, COUNTRY).from(CUSTOMERS).where(COUNTRY).equals("Germany")
+        assertThat(getSqlBuilder().select(CITY, COUNTRY).from(CUSTOMERS).where(COUNTRY).equalTo("Germany")
                         .union(getSqlBuilder().select(CITY, COUNTRY).from("Suppliers").where(COUNTRY)
-                                .equals("Germany").build()).orderBy(CITY).build(),
+                                .equalTo("Germany").build()).orderBy(CITY).build(),
                 is("SELECT City, Country FROM Customers WHERE Country = 'Germany' UNION "
                         + "SELECT City, Country FROM Suppliers WHERE Country = 'Germany' ORDER BY City"));
 
@@ -120,10 +118,10 @@ public class SqlBuilderTests {
                         + "VALUES ('Cardinal', 'Tom B. Erichsen', 'Skagen 21', 'Stavanger', '4006', 'Norway')"));
 
         assertThat(getSqlBuilder().updateTable(CUSTOMERS, MapBuilder.linkedHashMap("ContactName", "Alfred Schmidt")
-                .put("City", "Frankfurt").build(), new SqlCondition("CustomerID").equal(1)).build(),
+                .put("City", "Frankfurt").build(), new SqlCondition("CustomerID").equalTo(1)).build(),
                 is("UPDATE Customers SET ContactName = 'Alfred Schmidt', City = 'Frankfurt' WHERE CustomerID = 1"));
         
-        assertThat(getSqlBuilder().deleteRowsFrom(CUSTOMERS).where("CustomerName").equals("Some One").build(),
+        assertThat(getSqlBuilder().deleteRowsFrom(CUSTOMERS).where("CustomerName").equalTo("Some One").build(),
                 is("DELETE FROM Customers WHERE CustomerName = 'Some One'"));
         
     }
@@ -213,10 +211,8 @@ public class SqlBuilderTests {
 
     @Test
     public void databaseOperations() throws Exception {
-
         assertThat(getSqlBuilder().createDataBase("testDB").build(), is("CREATE DATABASE testDB"));
         assertThat(getSqlBuilder().dropDataBase("testDB").build(), is("DROP DATABASE testDB"));
-
     }
 
     /*

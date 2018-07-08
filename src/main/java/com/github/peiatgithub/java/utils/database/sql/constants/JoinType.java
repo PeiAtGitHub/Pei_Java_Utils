@@ -2,6 +2,8 @@ package com.github.peiatgithub.java.utils.database.sql.constants;
 
 
 /**
+ * The Join type enum.
+ * 
  * @author pei
  * @since 5.0
  */

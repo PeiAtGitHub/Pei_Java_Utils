@@ -14,18 +14,28 @@ import java.util.LinkedHashMap;
  *    and Guava ImmutableMap.of(...)(Max 5)
  * 5. Need to call method build() at the end to get the created Map instance.
  *</pre>
+ *
  * @author pei
+ * @since 5.0
  */
 public class MapBuilder{
 
+    /**
+     * Create an HashMap instance with the initial key and value. 
+     */
     public static <K, V> HashMapBuilder<K, V> hashMap(K key, V value) {
         return new MapBuilder().getHashMapBuilder(key, value);
     }
+
+    /**
+     * Create an LinkedHashMap instance with the initial key and value. 
+     */
     public static <K, V> LinkedHashMapBuilder<K, V> linkedHashMap(K key, V value) {
         return new MapBuilder().getLinkedHashMapBuilder(key, value);
     }
 
     //
+    
     private <K, V> HashMapBuilder<K, V> getHashMapBuilder(K key, V value) {
         return new HashMapBuilder<K, V>(key, value);
     }
@@ -34,7 +44,9 @@ public class MapBuilder{
     }
 
     /**
+     * User MapBuilder.hashMap() to create an instance of this HashMapBuilder.
      * @author pei
+     * @since 5.0
      */
     public class HashMapBuilder<K, V>{
         private HashMap<K, V> theHashMap;
@@ -55,7 +67,9 @@ public class MapBuilder{
     }
     
     /**
+     * User MapBuilder.linkedHashMap() to create an instance of this LinkedHashMapBuilder.
      * @author pei
+     * @since 5.0
      */
     public class LinkedHashMapBuilder<K, V>{
         private LinkedHashMap<K, V> theLinkedHashMap;
@@ -74,4 +88,5 @@ public class MapBuilder{
             return this.theLinkedHashMap;
         }
     }
+    
 }

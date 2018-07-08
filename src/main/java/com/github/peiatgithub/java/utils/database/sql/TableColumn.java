@@ -6,6 +6,7 @@ import lombok.Getter;
 
 /**
  * Represents a table column
+ * 
  * @author pei
  * @since 5.0
  */
@@ -30,6 +31,5 @@ public class TableColumn {
         this.dataType = dataType;
         this.constraints = constraints;
     }
-
 
 }

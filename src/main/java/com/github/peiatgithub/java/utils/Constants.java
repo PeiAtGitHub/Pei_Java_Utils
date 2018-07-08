@@ -1,12 +1,13 @@
 package com.github.peiatgithub.java.utils;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import com.github.peiatgithub.java.utils.collections.MapBuilder;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 /**
  * <pre>
@@ -81,29 +82,10 @@ public class Constants {
     /** An array as test data, contains int 1, 2, 3 */
     public final static int[] TEST_INT_ARRAY_123 = new int[] {1, 2, 3};
 
-    private final static List<Integer> list123; 
-    private final static Set<Integer> set123;
-    private final static Map<String, Integer> map123;
-    		
-    static 
-    {  
-    	list123 = new ArrayList<>();
-    	list123.add(1);
-    	list123.add(2);
-    	list123.add(3);
-    	TEST_LIST_123 = Collections.unmodifiableList(list123);
-    	
-    	set123 = new HashSet<>();
-    	set123.add(1);
-    	set123.add(2);
-    	set123.add(3);
-    	TEST_SET_123 = Collections.unmodifiableSet(set123);
-
-    	map123 = new HashMap<>();
-    	map123.put(S1, 1);
-    	map123.put(S2, 2);
-    	map123.put(S3, 3);
-    	TEST_MAP_123 = Collections.unmodifiableMap(map123);
+    static {  
+    	TEST_LIST_123 = Collections.unmodifiableList(Lists.newArrayList(1, 2, 3));
+    	TEST_SET_123 = Collections.unmodifiableSet(Sets.newHashSet(1, 2, 3));
+    	TEST_MAP_123 = Collections.unmodifiableMap(MapBuilder.linkedHashMap(S1, 1).put(S2, 2).put(S3, 3).build());
     }
     
     public static final Class<NullPointerException> NPE = NullPointerException.class;

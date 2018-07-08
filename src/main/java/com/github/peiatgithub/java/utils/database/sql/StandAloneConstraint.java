@@ -9,7 +9,7 @@ import lombok.Setter;
 /**
  * <pre>
  * This class represents the Constraint defined separately after table column definitions.
- * Use the static factory methods to create corresponding constraint instances.
+ * Use the static factory methods to create the constraint instances.
  * </pre>
  * 
  * @author pei
@@ -75,9 +75,7 @@ public class StandAloneConstraint extends Constraints{
      * @return the SQL string of the constraint
      */
     public String getText() {
-
         String type = getType();
-
         if (type.equals(FOREIGN_KEY)) {
             return str("{} ({}) REFERENCES {}({})", type, arrayToString(columns, ", ", null), safeStr(getFkTable()),
                     safeStr(getFkColumn()));
@@ -86,7 +84,6 @@ public class StandAloneConstraint extends Constraints{
         } else {
             return str("{} ({})", type, arrayToString(columns, ", ", null));
         }
-
     }
 
 }

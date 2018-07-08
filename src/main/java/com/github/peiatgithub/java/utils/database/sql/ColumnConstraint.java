@@ -11,8 +11,7 @@ import lombok.Setter;
  * <pre>
  * This class represents the Constraint on a table column.
  * The instance of this class will reside in a TableColumn instance.
- * Please use the static factory methods to create corresponding 
- * constraint instances.
+ * Please use the static factory methods to create instances of this class.
  * </pre>
  * 
  * @author pei
@@ -77,9 +76,7 @@ public class ColumnConstraint extends Constraints {
      * @returns the SQL string of the constraint
      */
     public String getText() {
-
         String type = getType();
-
         if (type.equals(FOREIGN_KEY)) {
             return str("{} REFERENCES {}({})", type, safeStr(getFkTable()), safeStr(getFkColumn()));
         } else if (type.equals(CHECK)) {
@@ -94,7 +91,6 @@ public class ColumnConstraint extends Constraints {
         } else {
             return type;
         }
-
     }
 
 }

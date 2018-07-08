@@ -1,9 +1,7 @@
 package com.github.peiatgithub.java.utils.database;
 
 /**
- * 
  * @author pei
- *
  * @since 5.0
  */
 public class DBUtils {
@@ -14,6 +12,5 @@ public class DBUtils {
     
     // Hibernate
     public static final String HIBERNATE_CONFIG_FILE= "hibernate.cfg.xml";
-    
 
 }

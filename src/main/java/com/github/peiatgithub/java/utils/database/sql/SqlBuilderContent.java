@@ -11,9 +11,10 @@ import lombok.AccessLevel;
 
 /**
  * <pre>
- * This class holds the content of the SQL String under construction.
+ * This class holds the content of the SQL String under build.
  * The outcome SQL String is created by calling the build() method.
  * </pre>
+ * 
  * @author pei
  * @since 5.0
  */
@@ -26,12 +27,10 @@ public class SqlBuilderContent {
     private SqlCondition whereCondition = null;
     private Integer maxNumOfRows = null;
 
-
     /**
      * Build the result sql String
      */
     public String build() {
-
         String result = sqlSb.toString().trim();
 
         if (maxNumOfRows != null) {
@@ -57,7 +56,6 @@ public class SqlBuilderContent {
         }
 
         return result.trim();
-
     }
 
 }

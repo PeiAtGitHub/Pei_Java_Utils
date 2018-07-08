@@ -6,7 +6,9 @@ import lombok.Setter;
 
 /**
  * Table column constraints
+ * 
  * @author pei
+ * @since 5.0
  */
 @Getter
 @Setter(AccessLevel.PROTECTED)

@@ -2,13 +2,9 @@ package com.github.peiatgithub.java.utils.database.sql.constants;
 
 import java.util.ArrayList;
 import java.util.Collections;
-
 import org.apache.commons.collections4.CollectionUtils;
-
 import com.github.peiatgithub.java.utils.Encloser;
-
 import lombok.Getter;
-
 import static com.github.peiatgithub.java.utils.Constants.*;
 import static com.github.peiatgithub.java.utils.Utils.*;
 
@@ -17,6 +13,7 @@ import static com.github.peiatgithub.java.utils.Utils.*;
  * Represent the table column data type.
  * Use the factory methods to create instances of this class.
  * </pre>
+ * 
  * @author pei
  * @since 5.0
  */
@@ -27,14 +24,13 @@ public class DataType {
     private final ArrayList<Number> args = new ArrayList<>();
     private final ArrayList<String> enumValues = new ArrayList<>(); // only for data type ENUM
 
-    
     private DataType(Type type, Number...args) {
         this.type = type;
         Collections.addAll(this.args, args);
     }
 
     /**
-     * Only for Type.ENUM
+     * Create a DataType of Type.ENUM with specified values.
      */
     private DataType(String...enumValues) {
         this.type = Type.ENUM;
@@ -84,17 +80,14 @@ public class DataType {
         return new DataType(enumValues);
     }
     
-    /*
-     * 
+    /**
+     * returns the SQL text of the DataType.
      */
     public String text() {
-
         if (this.type == null) {
             return EMPTY;
         }
-
         String result = this.type.text();
-
         if (this.type.equals(Type.ENUM)) {// e.g. ENUM('X','Y','Z')
             if (!CollectionUtils.isEmpty(enumValues)) {
                 result += encloseString(listToString(this.enumValues, COMMA, Encloser.SINGLE), Encloser.PARENTHESES);
@@ -104,17 +97,16 @@ public class DataType {
                 result += encloseString(listToString(this.args, COMMA, null), Encloser.PARENTHESES);
             }
         }
-
         return result;
     }
 
     /**
-     * Table columns data type
+     * Table columns data type ENUM
+     * 
      * @author pei
      * @since 5.0
      */
     public enum Type {
-
         // @formatter:off
         CHAR("CHAR"), 
         VARCHAR("VARCHAR"), 
@@ -140,7 +132,6 @@ public class DataType {
         public String text() {
             return this.text;
         }
-
     }
-
+    
 }
