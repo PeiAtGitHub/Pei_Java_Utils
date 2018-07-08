@@ -1,7 +1,8 @@
 package com.github.peiatgithub.java.utils.database.sql.constants;
 
+
 /**
- * 
+ * Certain SQL syntax depends on this.
  * @author pei
  * @since 5.0
  */

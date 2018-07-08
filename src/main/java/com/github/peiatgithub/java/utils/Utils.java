@@ -1,13 +1,16 @@
 package com.github.peiatgithub.java.utils;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.assertj.core.util.Arrays;
 
 import com.github.peiatgithub.java.utils.function.NonArgFunction;
@@ -383,6 +386,28 @@ public class Utils {
 	    }
 	    
 	    return StringUtils.removeEnd(result.toString(), separator);
+	    
+	}
+	
+	/**
+	 * <pre>
+	 * Returns a pair of two lists, 
+	 * one contains the input map keys, another contains values 
+	 * in corresponding order.
+	 * </pre> 
+	 */
+	public static <K, V> Pair<List<K>, List<V>>  mapToKvLists(Map<K, V> theMap){
+        
+	    List<K> kList =  new ArrayList<>();
+        List<V> vList = new ArrayList<>();
+        Pair<List<K>, List<V>> result  = Pair.of(kList, vList);
+        
+        for(K key : theMap.keySet()) {
+            kList.add(key);
+            vList.add(theMap.get(key));
+        }
+	    
+	    return result;
 	    
 	}
 	

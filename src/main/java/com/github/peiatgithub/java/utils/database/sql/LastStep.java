@@ -27,7 +27,7 @@ public class LastStep {
     SqlBuilderContent sbc;
 
     /**
-     *  
+     * ORDER BY ...
      */
     public LastStep orderBy(Order order, String... columns) {
         sbc.getSqlSb().append("ORDER BY " + join(columns, COMMA) + SPACE);
@@ -38,32 +38,48 @@ public class LastStep {
     }
 
     /**
-     * Use the default order ASC
+     * Use the default order ASC which is not shown in the result SQL
      */
     public LastStep orderBy(String... columns) {
         orderBy(Order.ASC, columns);
         return this;
     }
 
+    /**
+     * GROUP BY ...
+     */
     public LastStep groupBy(String... columns) {
         sbc.getSqlSb().append("GROUP BY " + join(columns, COMMA) + SPACE);
         return this;
     }
 
+    /**
+     * HAVING ...
+     */
     public LastStep having(SqlCondition sc) {
         sbc.getSqlSb().append("HAVING " + sc.buildConditionString() + SPACE);
         return this;
     }
 
+    /**
+     * UNION ...
+     */
     public LastStep union(String sql) {
         sbc.getSqlSb().append("UNION ").append(sql + SPACE);
         return this;
     }
+
+    /**
+     * UNION ALL ...
+     */
     public LastStep unionAll(String sql) {
         sbc.getSqlSb().append("UNION ALL ").append(sql + SPACE);
         return this;
     }
 
+    /**
+     * Build the result SQL String
+     */
     public String build() {
         return sbc.build();
     }

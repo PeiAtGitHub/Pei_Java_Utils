@@ -5,7 +5,7 @@ import static com.github.peiatgithub.java.utils.Utils.*;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * 
+ * A factory class help generate SQL text for aggregate functions.
  * @author pei
  * @since 5.0
  */

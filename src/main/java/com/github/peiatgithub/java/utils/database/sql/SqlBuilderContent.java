@@ -6,27 +6,24 @@ import org.apache.commons.lang3.StringUtils;
 import com.github.peiatgithub.java.utils.database.sql.constants.SqlFamily;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.AccessLevel;
 
 /**
  * <pre>
  * This class holds the content of the SQL String under construction.
- * And the outcome SQL String is created by calling build() method of this class.
+ * The outcome SQL String is created by calling the build() method.
  * </pre>
  * @author pei
  * @since 5.0
  */
 @Getter(AccessLevel.PACKAGE)
 @Setter(AccessLevel.PACKAGE)
-@NoArgsConstructor
 public class SqlBuilderContent {
 
     private StringBuilder sqlSb = new StringBuilder();
     private SqlFamily sqlFamily = SqlFamily.MY_SQL; // default
-    private SqlCondition selectCondition = null;
-    private SqlCondition deleteCondition = null;
+    private SqlCondition whereCondition = null;
     private Integer maxNumOfRows = null;
 
 
@@ -37,29 +34,26 @@ public class SqlBuilderContent {
 
         String result = sqlSb.toString().trim();
 
-        if (maxNumOfRows != null) {// output only limited rows
+        if (maxNumOfRows != null) {
             if (sqlFamily != null) {
                 switch (sqlFamily) {
-                case MY_SQL:
-                    result += " LIMIT " + maxNumOfRows;
-                    break;
                 case ORACLE:
-                    selectCondition.and(new SqlCondition("ROWNUM").lessThanOrEqualTo(maxNumOfRows));
+                    whereCondition.and(new SqlCondition("ROWNUM").lessThanOrEqualTo(maxNumOfRows));
                     break;
                 case SQL_SERVER:
                 case MS_ACCESS:
                     result = StringUtils.replace(result, "SELECT ", "SELECT TOP " + maxNumOfRows + SPACE, 1);
                     break;
+                case MY_SQL:
                 default:
-                    throw new RuntimeException("Unsupported SQL Family: " + sqlFamily.toString());
+                    result += " LIMIT " + maxNumOfRows;
+                    break;
                 }
             }
         }
 
-        if (selectCondition != null) {
-            result = result.replaceFirst("WHERE", "WHERE " + selectCondition.buildConditionString());
-        } else if (deleteCondition != null) {
-            result = result.replaceFirst("WHERE", "WHERE " + deleteCondition.buildConditionString());
+        if (whereCondition != null) {
+            result = result.replaceFirst("WHERE", "WHERE " + whereCondition.buildConditionString());
         }
 
         return result.trim();

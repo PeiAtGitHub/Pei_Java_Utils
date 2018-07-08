@@ -13,8 +13,10 @@ import static com.github.peiatgithub.java.utils.Constants.*;
 import static com.github.peiatgithub.java.utils.Utils.*;
 
 /**
- * Represent the DB columns data type
- * 
+ * <pre>
+ * Represent the table column data type.
+ * Use the factory methods to create instances of this class.
+ * </pre>
  * @author pei
  * @since 5.0
  */
@@ -40,7 +42,7 @@ public class DataType {
     }
     
     /*
-     * 
+     * factory methods
      */
     public static DataType ofChar(Number...args) {
         return new DataType(Type.CHAR, args);
@@ -107,7 +109,7 @@ public class DataType {
     }
 
     /**
-     * DB columns data type
+     * Table columns data type
      * @author pei
      * @since 5.0
      */

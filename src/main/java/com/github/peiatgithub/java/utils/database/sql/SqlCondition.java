@@ -13,9 +13,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
+ * Represents the condition of the WHERE clause.
  * 
  * @author pei
- *
  * @since 5.0
  */
 @NoArgsConstructor
@@ -35,16 +35,14 @@ public class SqlCondition extends LastStep {
      * e.g. NOT CustomerName = "Tom"
      * </pre>
      */
-    @Getter
-    @Setter
     private boolean isComposite = false;
 
     public SqlCondition(String operand1) {
-        this.condition.append(operand1).append(SPACE);
+        this.condition.append(operand1 + SPACE);
     }
 
     public SqlCondition(String operand1, SqlBuilderContent sbc) {
-        this.condition.append(operand1).append(SPACE);
+        this.condition.append(operand1 + SPACE);
         super.setSbc(sbc);
     }
 
@@ -127,15 +125,14 @@ public class SqlCondition extends LastStep {
     /*
      * 
      */
+
     public SqlCondition and(SqlCondition condition2) {
 
         if (isComposite()) {
             encloseWithParentheses(this.condition);
         }
         append(str(" AND {}", getConditionString(condition2)));
-
         setComposite(true);
-
         return this;
     }
 
@@ -145,18 +142,14 @@ public class SqlCondition extends LastStep {
             encloseWithParentheses(this.condition);
         }
         append(str(" OR {}", getConditionString(condition2)));
-
         setComposite(true);
-
         return this;
 
     }
 
     public SqlCondition not(SqlCondition condition) {
         append(str("NOT {}", getConditionString(condition)));
-
         setComposite(true);
-
         return this;
 
     }
@@ -169,11 +162,19 @@ public class SqlCondition extends LastStep {
         return append(str("IS NOT NULL"));
     }
 
+    /**
+     * EXISTS ...
+     */
     public SqlCondition exist(String sql) {
         return append("EXISTS " + encloseString(sql, Encloser.PARENTHESES));
     }
 
-    //
+    /**
+     * <pre>
+     * returns this condition's text String.
+     * to return the entire SQL String, call {@link #build()}
+     * </pre>
+     */
     public String buildConditionString() {
         return this.condition.toString();
     }
@@ -181,13 +182,14 @@ public class SqlCondition extends LastStep {
     /*
      * private utils
      */
+
     private void encloseWithParentheses(StringBuilder sb) {
         sb.insert(0, PARENTHESES.begin()).append(PARENTHESES.end());
     }
 
     /**
-     * If the condition is composite, the result String will be enclosed with
-     * parentheses
+     * If the condition is composite, 
+     * the result String will be enclosed with parentheses
      */
     private String getConditionString(SqlCondition condition) {
 
@@ -199,9 +201,6 @@ public class SqlCondition extends LastStep {
 
     }
 
-    /**
-     * Append text to the condition.
-     */
     private SqlCondition append(String text) {
         this.condition.append(text);
         return this;
