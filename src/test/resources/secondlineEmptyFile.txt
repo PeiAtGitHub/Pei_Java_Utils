@@ -1,0 +1,1 @@
+This file has two lines but the second line is empty.

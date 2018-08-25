@@ -1,5 +1,7 @@
 package com.github.peiatgithub.java.utils;
 
+import java.io.File;
+import java.io.RandomAccessFile;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -525,5 +527,58 @@ public class Utils {
         }
         return sum;
     }
+    
+    /**
+     * Get the last line of a file.<br/>
+     * (Implemented using RandomAccessFile, moving char pointer from last char of a file backwards<br/>
+     * until found a LF/CR)
+     */
+    public static String getLastLineOfFile(File file) throws Exception {
+        try(RandomAccessFile rf = new RandomAccessFile(file, "r")){
+            //empty file
+            if(rf.length() == 0) {
+                return "";
+            }
+            
+            // put pointer to end
+            long pointer = rf.length() - 1; 
+            rf.seek(pointer);
+            
+            // move pointer backwards
+            char readChar;
+            String theLastLine = null;
+            while (pointer > 0) {
+                readChar = (char)rf.read();
+                if (isLineFeed(readChar) || isCarriageReturn(readChar)) {
+                    theLastLine = rf.readLine();
+                    if (theLastLine != null) {
+                        break;
+                    }
+                }
+                rf.seek(--pointer);
+                if (pointer == 0) {
+                    theLastLine = rf.readLine();
+                }
+            }
+            return theLastLine;
+        }
+    }
+    
+    
+    /**
+     * Get a file from resources folder
+     */
+    public static File getResourceFile(String fileName) {
+        return new File(Thread.currentThread().getContextClassLoader().getResource(fileName).getFile());
+    }
+    
+    public static boolean isLineFeed(char c) {
+        return c == '\n';
+    }
+    
+    public static boolean isCarriageReturn(char c) {
+        return c == '\r';
+    }
+
 
 }

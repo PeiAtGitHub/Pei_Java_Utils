@@ -1,6 +1,7 @@
 package com.github.peiatgithub.java.utils.tests;
 
 import static org.junit.Assert.*;
+
 import java.util.Collections;
 import static org.hamcrest.CoreMatchers.*;
 import static org.assertj.core.api.Assertions.*;
@@ -256,6 +257,14 @@ public class UtilsTests {
         sb.append(STR);
         assertThat(sb.toString()).isEqualTo(STR);
 
+    }
+    
+    @Test
+    public void testGetFileLastLine() throws Exception {
+        assertEquals(EMPTY, getLastLineOfFile(getResourceFile("emptyFile.txt")));
+        assertEquals("This is a one line file.", getLastLineOfFile(getResourceFile("onelineFile.txt")));
+        assertEquals(EMPTY, getLastLineOfFile(getResourceFile("secondlineEmptyFile.txt")));
+        assertEquals("The 3rd line.", getLastLineOfFile(getResourceFile("threelinesFile.txt")));
     }
 
 }
